@@ -132,6 +132,13 @@ app.delete('/wishlist/remove/:id', async(req,res)=>{
         id: shoe
     })
 })
+app.delete('/wishlist/deleteAll', async(req,res) =>{
+    const shoe = await WISHLIST.deleteMany()
+    res.status(200).json({
+        msg:'deleted all ',
+        shoe: shoe
+    })
+} )
 app.get('/wishlist', async(req,res)=>{
     const shoe = await WISHLIST.find({})
     if(!shoe){

@@ -4,6 +4,7 @@ import WishlistBtn from './wishlist/WishlistBtn'
 const ShoesDetails = () => {
     const { id} = useParams()
     const [product , setProduct] = useState({})
+    const [btnActive , setBtnActive] = useState(true)
     // const [image , setImage] = useState(product.image[0])
     const [image, setImage] = useState(product.image && product.image.length > 0 ? product.image[0] : '');
 
@@ -20,6 +21,12 @@ const ShoesDetails = () => {
     })
     const handleWishlist = () => {
       // Data to be sent in the POST request
+      if(!btnActive){
+        setBtnActive(false)
+      }else{
+        setBtnActive(true)
+        
+      }
       const data = {
         _id: id  // Assuming id is defined and contains the appropriate value
       };
@@ -95,7 +102,7 @@ const ShoesDetails = () => {
             <h1>MRP: ${product.price}</h1>
             <h2>Rating: {product.rating} </h2>
             {/* <span className='w-max border-2'>{renderStars()}</span> */}
-            <WishlistBtn handleWishlist={handleWishlist} />
+            <WishlistBtn handleWishlist={handleWishlist} btnActive={btnActive}/>
 
         </div>
     

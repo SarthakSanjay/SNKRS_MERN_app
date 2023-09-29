@@ -33,7 +33,7 @@ const Wishlist = () => {
       
 
   return (
-    <div className='h-[100%] w-screen bg-gray-200 p-10 flex flex-wrap'>
+    <div className=' min-h-screen w-screen bg-gray-200 p-10 flex flex-wrap'>
       {wishlist.map((shoe , index) => {
         return <div key={index}>
             <ShoeCard shoe={shoe} />

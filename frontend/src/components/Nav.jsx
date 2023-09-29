@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 
 const Nav = () => {
   return (
-    <div className="flex justify-evenly bg-white h-14 items-center w-screen sticky">
+    <div className="flex justify-evenly bg-white h-14 items-center w-screen sticky top-0">
     <Link to="/">
         <Logo className="w-1/3 " />
     </Link>
