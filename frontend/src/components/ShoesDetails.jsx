@@ -1,16 +1,51 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import WishlistBtn from './wishlist/WishlistBtn'
 const ShoesDetails = () => {
     const { id} = useParams()
     const [product , setProduct] = useState({})
     // const [image , setImage] = useState(product.image[0])
     const [image, setImage] = useState(product.image && product.image.length > 0 ? product.image[0] : '');
 
+    const [wishlist , setWishlist] = useState({})
+
     // console.log(image)
     const handleClick = (e) =>{
         setImage(e.target.src)
         console.log(e.target.src)
     }
+    useEffect(() =>{
+     
+      
+    })
+    const handleWishlist = () => {
+      // Data to be sent in the POST request
+      const data = {
+        _id: id  // Assuming id is defined and contains the appropriate value
+      };
+    
+      fetch('http://localhost:3000/wishlist/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return res.json();
+        })
+        .then((data) => {
+          console.log('Wishlist item added:', data);
+        })
+        .catch((error) => {
+          console.error('Error adding to wishlist:', error);
+        });
+    };
+    
+
     useEffect(() => {
         fetch(`http://localhost:3000/shoe/${id}`)
         .then((res) => res.json())
@@ -60,6 +95,8 @@ const ShoesDetails = () => {
             <h1>MRP: ${product.price}</h1>
             <h2>Rating: {product.rating} </h2>
             {/* <span className='w-max border-2'>{renderStars()}</span> */}
+            <WishlistBtn handleWishlist={handleWishlist} />
+
         </div>
     
     </div>

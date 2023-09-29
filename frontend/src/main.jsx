@@ -8,6 +8,7 @@ import Men from './components/Men.jsx'
 import Women from './components/Women.jsx'
 import Unisex from './components/Unisex.jsx'
 import ShoesDetails from './components/ShoesDetails.jsx'
+import Wishlist from './components/wishlist/Wishlist.jsx'
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path:"shoe/:id",
         element : <ShoesDetails />
+      },
+      {
+        path:'wishlist',
+        element : <Wishlist />
       }
 
     ]

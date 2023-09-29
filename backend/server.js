@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const port = 3000
 const SHOES = require('./models/shoe')
+const WISHLIST = require('./models/wishlist')
 app.use(cors())
 app.use(express.json())
 app.get('/', (req, res) => {
@@ -94,6 +95,51 @@ app.post('/addShoes', async(req,res)=>{
     }) 
     res.status(200).json({
         msg: "success",
+        shoe: shoe
+    })
+})
+app.post('/wishlist/add', async(req,res)=>{
+    const shoeId = req.body._id
+    const existingShoe = await WISHLIST.findOne({shoeId})
+    if(existingShoe){
+        return res.status(409).json({
+            msg:"already exists"
+        })
+    }
+    const shoe = await WISHLIST.create({
+        shoeId : shoeId
+    })
+    if(!shoeId){
+        return res.status(404).json({
+                msg:"id not found "
+        })
+    }
+    res.status(200).json({
+        id: shoe
+    })
+})
+app.delete('/wishlist/remove/:id', async(req,res)=>{
+    const shoeId = req.params.id
+    const shoe = await WISHLIST.deleteOne({
+        _id : shoeId
+    })
+    if(!shoeId){
+        return res.status(404).json({
+                msg:"id not found "
+        })
+    }
+    res.status(200).json({
+        id: shoe
+    })
+})
+app.get('/wishlist', async(req,res)=>{
+    const shoe = await WISHLIST.find({})
+    if(!shoe){
+        return res.status(404).json({
+                msg:"id not found "
+        })
+    }
+    res.status(200).json({
         shoe: shoe
     })
 })

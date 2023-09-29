@@ -22,7 +22,10 @@ const Nav = () => {
         </ul>
         <div className="flex items-center w-1/3 justify-around">
            <Search />
+           <Link to='/wishlist'>
            <LiaHeart className="ml-4 text-2xl"/>
+
+           </Link>
            <LiaShoppingBagSolid className="text-2xl"/>
 
         </div>
