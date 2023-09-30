@@ -147,7 +147,8 @@ app.get('/wishlist', async(req,res)=>{
         })
     }
     res.status(200).json({
-        shoe: shoe
+        shoe: shoe,
+        total: shoe.length
     })
 })
 

@@ -15,10 +15,7 @@ const ShoesDetails = () => {
         setImage(e.target.src)
         console.log(e.target.src)
     }
-    useEffect(() =>{
-     
-      
-    })
+   
     const handleWishlist = () => {
       // Data to be sent in the POST request
       if(!btnActive){

@@ -9,5 +9,4 @@ const WishlistBtn = ({handleWishlist,btnActive}) => {
     </button>
   )
 }
-
 export default WishlistBtn

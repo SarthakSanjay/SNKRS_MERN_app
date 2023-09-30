@@ -30,7 +30,11 @@ const Wishlist = () => {
           })
           .catch((error) => console.error('Error fetching wishlist:', error));
       }, []);
-      
+      if(wishlist.length === 0){
+        return <div className='bg-purple-300 h-screen w-screen flex justify-center items-center'>
+          <h1>Sorry! No items added in wishlist</h1>
+        </div>
+      }
 
   return (
     <div className=' min-h-screen w-screen bg-gray-200 p-10 flex flex-wrap'>
