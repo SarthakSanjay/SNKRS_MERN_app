@@ -6,7 +6,7 @@ const Shoes = () => {
     const [product , setProduct] = useState([])
 
     useEffect(()=>{
-        fetch("http://localhost:3000/all")
+        fetch("http://localhost:3000/shoe/all")
         .then((response) => response.json())
         .then((response) => setProduct(response.shoes))
         .catch(e => console.log(e.message))
