@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import ShoeCard from './ShoeCard'
+import ShoeCard from '../ShoeCard'
 
-const Men = () => {
+const Women = () => {
     const [product , setProduct] = useState([])
     useEffect(()=>{
-        fetch("http://localhost:3000/men")
+        fetch("http://localhost:3000/women")
         .then((response) => response.json())
         .then((response) => setProduct(response.shoes))
         .catch(e => console.log(e.message))
@@ -22,4 +22,4 @@ const Men = () => {
   )
 }
 
-export default Men
+export default Women

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import ShoeCard from './ShoeCard'
+import ShoeCard from '../ShoeCard'
 
 const Unisex = () => {
     const [product , setProduct] = useState([])

@@ -1,10 +1,13 @@
+import { Link } from "react-router-dom"
 
-const ShoeCard = ({shoe}) => {
+const ShoeCard = ({shoe,id}) => {
     const {productName,price, image} = shoe
     const handleClick = () =>{
         
     }
   return (
+    <>
+    <Link to={`/shoe/${id}`}>
     <div className=" h-max w-52 m-10 cursor-pointer"
     onClick={handleClick}
     >
@@ -13,6 +16,8 @@ const ShoeCard = ({shoe}) => {
         <h3 className="ml-2 p-1">Price: ${price}</h3>
 
     </div>
+    </Link>
+    </>
   )
 }
 

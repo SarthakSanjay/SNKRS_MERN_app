@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import ShoeCard from "./ShoeCard"
-import { Link } from "react-router-dom"
+// import { Link } from "react-router-dom"
 
 const Shoes = () => {
     const [product , setProduct] = useState([])
@@ -16,9 +16,8 @@ const Shoes = () => {
     {
         product.map((shoe) => (
             <div key={shoe._id}>
-            <Link to={`/shoe/${shoe._id}`}>
-                <ShoeCard shoe={shoe} />
-            </Link>
+                <ShoeCard shoe={shoe} id={shoe._id} />
+          
             </div>
         ))
     }

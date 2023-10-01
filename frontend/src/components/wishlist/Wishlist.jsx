@@ -4,7 +4,12 @@ import ShoeCard from '../ShoeCard';
 
 const Wishlist = () => {
     const [wishlist , setWishlist] = useState([])
-    
+    const deleteAll =async () => {
+      await fetch('http://localhost:3000/wishlist/deleteAll',{method: "DELETE"})
+      .then(console.log("deletedALl"))
+      .catch(e => console.log(e.message))
+      
+    }
 
     useEffect(() => {
         fetch('http://localhost:3000/wishlist')
@@ -38,6 +43,7 @@ const Wishlist = () => {
 
   return (
     <div className=' min-h-screen w-screen bg-gray-200 p-10 flex flex-wrap'>
+    <button onClick={deleteAll}>DeleteALL</button>
       {wishlist.map((shoe , index) => {
         return <div key={index}>
             <ShoeCard shoe={shoe} />
