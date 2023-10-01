@@ -20,15 +20,15 @@ const router = createBrowserRouter([
         element: <Shoes />
       },
       {
-        path: "men",
+        path: "category/men",
         element : <Men />
       },
       {
-        path: "women",
+        path: "category/women",
         element : <Women />
       },
       {
-        path: "unisex",
+        path: "category/unisex",
         element : <Unisex />
       },
       {

@@ -4,7 +4,7 @@ import ShoeCard from '../ShoeCard'
 const Men = () => {
     const [product , setProduct] = useState([])
     useEffect(()=>{
-        fetch("http://localhost:3000/men")
+        fetch("http://localhost:3000/category/men")
         .then((response) => response.json())
         .then((response) => setProduct(response.shoes))
         .catch(e => console.log(e.message))
