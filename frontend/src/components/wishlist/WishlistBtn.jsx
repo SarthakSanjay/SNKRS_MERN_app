@@ -6,6 +6,7 @@ const WishlistBtn = ({handleWishlist}) => {
     const handleClick = () =>{
       setClicked(prev => !prev)
       handleWishlist()
+      console.log(clicked)
     }
   return (
     <button onClick={handleClick }  className='w-52 h-10 bg-black hover:bg-white hover:text-black rounded-full flex justify-center items-center text-white'>

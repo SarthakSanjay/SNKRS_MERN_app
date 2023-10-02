@@ -7,16 +7,9 @@ import WishListIcon from "./wishlist/WishListIcon";
 
 
 const Nav = () => {
-  const [badge, setBadge] = useState(0);
+ 
  const [count ,setCount] = useState(0)
-  useEffect(() => {
-    const handleClick = async() => {
-     await fetch("http://localhost:3000/wishlist")
-      .then((res) => res.json())
-      .then((res) => setBadge(res.total))
-    }
-    handleClick()
-  }, [count]);
+  
   return (
     <div className="flex justify-evenly bg-white h-14 items-center w-screen sticky top-0">
         <Logo className="w-1/3 " />
@@ -29,7 +22,7 @@ const Nav = () => {
       </ul>
       <div className="flex items-center w-1/3 justify-around">
         <Search />
-        <WishListIcon badge={badge} />
+        <WishListIcon  />
         <LiaShoppingBagSolid className="text-2xl" />
       </div>
       <button onClick={() => setCount(count + 1)}>Refresh</button>
