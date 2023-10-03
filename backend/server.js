@@ -7,12 +7,14 @@ const port = 3000
 const wishlistRouter = require('./routes/wishlist')
 const shoeRouter = require('./routes/shoe')
 const categoryRouter = require('./routes/category')
+const cartRouter = require('./routes/cart')
 
 app.use(cors())
 app.use(express.json())
 app.use('/wishlist', wishlistRouter)
 app.use('/shoe',shoeRouter)
 app.use('/category', categoryRouter)
+app.use('/cart' , cartRouter)
 
 const start = async () => {
     try {

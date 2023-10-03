@@ -1,14 +1,14 @@
-const WISHLIST = require('../models/wishlist')
+const CART = require('../models/cart')
 
-const addWishlist = async(req,res)=>{
+const addToCart = async(req,res)=>{
     const shoeId = req.body._id
-    const existingShoe = await WISHLIST.findOne({shoeId})
+    const existingShoe = await CART.findOne({shoeId})
     if(existingShoe){
         return res.status(409).json({
             msg:"already exists"
         })
     }
-    const shoe = await WISHLIST.create({
+    const shoe = await CART.create({
         shoeId : shoeId
     })
     if(!shoeId){
@@ -21,9 +21,9 @@ const addWishlist = async(req,res)=>{
     })
 }
 
-const deleteWishlist = async(req,res)=>{
+const deleteCartItem = async(req,res)=>{
     const shoeId = req.params.id
-    const shoe = await WISHLIST.deleteOne({
+    const shoe = await CART.deleteOne({
         _id : shoeId
     })
     if(!shoeId){
@@ -36,16 +36,16 @@ const deleteWishlist = async(req,res)=>{
     })
 }
 
-const deleteAllWishlist = async(req,res) =>{
-    const shoe = await WISHLIST.deleteMany()
+const deleteAllCartItems = async(req,res) =>{
+    const shoe = await CART.deleteMany()
     res.status(200).json({
         msg:'deleted all ',
         shoe: shoe
     })
 } 
 
-const getWishlist = async(req,res)=>{
-    const shoe = await WISHLIST.find({}).populate('shoeId')
+const getCartItems = async(req,res)=>{
+    const shoe = await CART.find({}).populate('shoeId')
     if(!shoe){
         return res.status(404).json({
                 msg:"id not found "
@@ -57,4 +57,4 @@ const getWishlist = async(req,res)=>{
     })
 }
 
-module.exports = {addWishlist , deleteWishlist , deleteAllWishlist , getWishlist}
+module.exports = {addToCart , deleteAllCartItems , deleteCartItem , getCartItems}
