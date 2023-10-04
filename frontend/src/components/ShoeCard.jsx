@@ -8,7 +8,7 @@ const ShoeCard = ({shoe,id}) => {
   return (
     <>
     <Link to={`/shoe/${id}`}>
-    <div className=" h-max w-52 m-10 cursor-pointer"
+    <div className=" h-max w-52 m-10 cursor-pointer text-white"
     onClick={handleClick}
     >
         <img src={image[1]} className="w-full object-cover h-40" />

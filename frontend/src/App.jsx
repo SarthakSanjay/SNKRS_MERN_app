@@ -7,7 +7,7 @@ import {Outlet } from 'react-router-dom'
 function App() {
   
   return (
-    <div className='bg-blue-100 w-screen h-[100%]'>
+    <div className='bg-zinc-900 w-screen h-[100%]'>
 
         <Nav />
         <Outlet />

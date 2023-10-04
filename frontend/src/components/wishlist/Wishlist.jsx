@@ -42,14 +42,17 @@ const Wishlist = () => {
       }
 
   return (
-    <div className=' min-h-screen w-screen bg-gray-200 p-10 flex flex-wrap'>
+    <>
+
     <button onClick={deleteAll}>DeleteALL</button>
+    <div className=' min-h-screen w-screen bg-gray-200 p-10 flex flex-wrap'>
       {wishlist.map((shoe , index) => {
         return <div key={index}>
             <ShoeCard shoe={shoe} />
         </div>
       })}
     </div>
+    </>
   )
 }
 

@@ -11,9 +11,9 @@ const Nav = () => {
  const [count ,setCount] = useState(0)
   
   return (
-    <div className="flex justify-evenly bg-white h-14 items-center w-screen sticky top-0">
+    <div className="flex justify-evenly bg-zinc-800 h-14 items-center w-screen sticky top-0">
         <Logo className="w-1/3 " />
-      <ul className="flex text-blue-500 cursor-pointer w-1/3 justify-center">
+      <ul className="flex text-orange-600 cursor-pointer w-1/3 justify-center">
 
         <Link to="/category/men"><li>Men</li></Link>
         <Link to="/category/women"><li className="ml-4 mr-4">Women</li></Link>

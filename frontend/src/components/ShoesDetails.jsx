@@ -4,8 +4,7 @@ import WishlistBtn from './wishlist/WishlistBtn'
 const ShoesDetails = () => {
     const { id} = useParams()
     const [product , setProduct] = useState({})
-    const [image, setImage] = useState(product.image && product.image.length > 0 ? product.image[0] : '');
-
+    const [image, setImage] = useState(null);
     
 
     // console.log(image)
@@ -45,7 +44,10 @@ const ShoesDetails = () => {
     useEffect(() => {
         fetch(`http://localhost:3000/shoe/${id}`)
         .then((res) => res.json())
-        .then((response) => {setProduct(response.shoe)
+        .then((response) => {
+          setProduct(response.shoe)
+          setImage(response.shoe.image[0])
+
         // console.log(response.shoe)
     })
         .catch(e => console.log(e.message))
