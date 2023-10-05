@@ -9,6 +9,7 @@ import Wishlist from './components/wishlist/Wishlist.jsx'
 import Men from './components/navItems/Men.jsx'
 import Women from './components/navItems/Women.jsx'
 import  Unisex from './components/navItems/Unisex.jsx'
+import Cart from './components/cart/Cart.jsx'
 
 const router = createBrowserRouter([
   {
@@ -38,7 +39,11 @@ const router = createBrowserRouter([
       {
         path:'wishlist',
         element : <Wishlist />
-      }
+      },
+      {
+        path:'cart',
+        element : <Cart />
+      },
 
     ]
     
