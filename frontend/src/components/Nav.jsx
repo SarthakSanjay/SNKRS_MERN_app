@@ -1,9 +1,9 @@
 import Logo from "./navItems/Logo";
-import { LiaShoppingBagSolid, LiaHeart } from "react-icons/lia";
 import Search from "./Search";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import WishListIcon from "./wishlist/WishListIcon";
+import CartIcon from "./cart/CartIcon";
 
 
 const Nav = () => {
@@ -23,7 +23,8 @@ const Nav = () => {
       <div className="flex items-center w-1/3 justify-around">
         <Search />
         <WishListIcon  />
-        <LiaShoppingBagSolid className="text-2xl" />
+        <CartIcon />
+        
       </div>
       <button onClick={() => setCount(count + 1)}>Refresh</button>
     </div>
