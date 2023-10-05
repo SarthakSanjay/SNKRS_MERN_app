@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import WishlistBtn from './wishlist/WishlistBtn'
+import AddToCartBtn from './cart/AddToCartBtn'
 const ShoesDetails = () => {
     const { id} = useParams()
     const [product , setProduct] = useState({})
@@ -94,6 +95,8 @@ const ShoesDetails = () => {
             <h2>Rating: {product.rating} </h2>
             {/* <span className='w-max border-2'>{renderStars()}</span> */}
             <WishlistBtn handleWishlist={handleWishlist}/>
+            <br />
+            <AddToCartBtn />
 
         </div>
     
