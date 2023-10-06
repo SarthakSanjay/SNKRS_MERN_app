@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {LiaHeart, LiaHeartSolid} from 'react-icons/lia'
 const WishlistBtn = ({handleWishlist}) => {
   const [clicked ,setClicked] = useState(false)
