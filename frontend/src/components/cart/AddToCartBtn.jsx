@@ -4,7 +4,6 @@ import axios from 'axios'
 const AddToCartBtn = ({addToCart}) => {
   const handleClick = () =>{
     alert('add to cart')
-    
     addToCart()
   }
    return (
