@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import WishlistBtn from './wishlist/WishlistBtn'
 import AddToCartBtn from './cart/AddToCartBtn'
+import axios from 'axios'
 const ShoesDetails = () => {
     const { id} = useParams()
     const [product , setProduct] = useState({})
@@ -41,6 +42,12 @@ const ShoesDetails = () => {
         });
     };
     
+    const addToCart = () =>{
+      axios.post('http://localhost:3000/cart',{
+      _id: id 
+      })
+
+    }
 
     useEffect(() => {
         fetch(`http://localhost:3000/shoe/${id}`)
@@ -96,7 +103,7 @@ const ShoesDetails = () => {
             {/* <span className='w-max border-2'>{renderStars()}</span> */}
             <WishlistBtn handleWishlist={handleWishlist}/>
             <br />
-            <AddToCartBtn />
+            <AddToCartBtn addToCart={addToCart} />
 
         </div>
     
