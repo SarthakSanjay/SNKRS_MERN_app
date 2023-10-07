@@ -6,6 +6,12 @@ const Cart = () => {
   const [cart, setCart] = useState([]);
   const [total , setTotal] = useState(0)
   
+  const clearCart = () => {
+    axios.delete('http://localhost:3000/cart/deleteAll')
+    .then(console.log("deleted all cart items"))
+    .then(alert("deleted all cart items"))
+    .catch(e => console.log(e.message))
+  }
 
   useEffect(() => {
     // Fetch cart data when component mounts
@@ -20,7 +26,7 @@ const Cart = () => {
         console.error('Error fetching cart data:', error);
       });
       calculateTotal()
-  }, [total]);  // Empty dependency array to ensure this runs once when component mounts
+  }, [total ]);  // Empty dependency array to ensure this runs once when component mounts
   
   const calculateTotal = () =>{
     let price = 0
@@ -31,8 +37,11 @@ const Cart = () => {
     })
   }
 
+ 
+
   return (
     <div className='bg-slate-900 min-h-screen text-white w-screen flex flex-col items-center p-10'>
+    <button onClick={clearCart} className="bg-pink-700 text-white rounded-[4px] p-2 fixed right-10 ">Clear Cart</button>
       {cart.map((cartItem) => {
         return <CartItems key={cartItem._id} cartItem={cartItem.shoeId} id={cartItem._id} />
       })}

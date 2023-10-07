@@ -43,7 +43,7 @@ const ShoesDetails = () => {
     };
     
     const addToCart = () =>{
-      axios.post('http://localhost:3000/cart',{
+      axios.post('http://localhost:3000/cart/add',{
       _id: id 
       })
 
