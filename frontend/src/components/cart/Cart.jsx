@@ -20,16 +20,23 @@ const Cart = () => {
         console.error('Error fetching cart data:', error);
       });
   }, []);  // Empty dependency array to ensure this runs once when component mounts
+  
+  const calculateTotal = () =>{
+    let price = 0
+    cart.forEach((items) => {
+      price += items.shoeId.price
+      setTotal(price)
+      console.log(items.shoeId.price)
+    })
+  }
 
   return (
     <div className='bg-slate-900 min-h-screen text-white w-screen flex flex-col items-center p-10'>
       {cart.map((cartItem) => {
-        {/* setTotal( cartItem.shoeId.price) */}
-        
-
         return <CartItems key={cartItem._id} cartItem={cartItem.shoeId} id={cartItem._id} />
       })}
-      {total}
+      <h1>Total: {total} </h1>
+      <button className="bg-green-500 text-white p-2 rounded-[2px] hover:bg-green-700 " onClick={calculateTotal}>calculateTotal</button>
     </div>
   );
 }
