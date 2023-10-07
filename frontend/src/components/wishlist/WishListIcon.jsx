@@ -28,7 +28,7 @@ const WishListIcon = () => {
     <Link to="/wishlist">
       <div className=" h-10 w-20 flex justify-center items-center  relative text-white">
         <LiaHeart className=" text-3xl " />
-        <div className="w-5 h-5 bg-pink-400 text-white flex justify-center items-center rounded-full absolute top-0 right-0">
+        <div className="w-5 h-5 bg-pink-400 text-white flex justify-center items-center rounded-full absolute top-0 right-4">
           {badge}
         </div>
       </div>

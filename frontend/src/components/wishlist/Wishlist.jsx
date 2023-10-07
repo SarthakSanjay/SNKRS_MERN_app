@@ -36,8 +36,8 @@ const Wishlist = () => {
           .catch((error) => console.error('Error fetching wishlist:', error));
       }, []);
       if(wishlist.length === 0){
-        return <div className='bg-purple-300 h-screen w-screen flex justify-center items-center'>
-          <h1>Sorry! No items added in wishlist</h1>
+        return <div className='bg-black h-screen w-screen flex justify-center items-center'>
+          <h1 className='text-white text-[40px]'>Loading ...</h1>
         </div>
       }
 
@@ -45,7 +45,7 @@ const Wishlist = () => {
     <>
 
     <button onClick={deleteAll}>DeleteALL</button>
-    <div className=' min-h-screen w-screen bg-gray-200 p-10 flex flex-wrap'>
+    <div className=' min-h-screen w-screen p-10 flex flex-wrap'>
       {wishlist.map((shoe , index) => {
         return <div key={index}>
             <ShoeCard shoe={shoe} />
