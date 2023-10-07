@@ -14,7 +14,7 @@ const Women = () => {
     {
         product.map((shoe) => (
             <div key={shoe._id}>
-                <ShoeCard shoe={shoe} />
+                <ShoeCard shoe={shoe} id={shoe._id} />
             </div>
         ))
     }
