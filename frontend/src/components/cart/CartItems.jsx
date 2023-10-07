@@ -11,7 +11,7 @@ const CartItems = ({cartItem,id}) => {
     }
   return (
     <div className='bg-gray-800 h-[100px] w-[500px] flex justify-between items-center m-5 '>
-        <img src={cartItem.image[0]} className='h-full' />
+        <img src={cartItem.image[0]} className='h-full w-1/5 object-center ' />
         <div className='flex flex-col justify-around h-full '>
         <h2>{cartItem.productName}</h2>
         <div className='bg-red-400 w-[120px] rounded-[5px] flex justify-between p-2'>
@@ -28,7 +28,7 @@ const CartItems = ({cartItem,id}) => {
         </div>
         </div>
             <h1>${cartItem.price}</h1>
-            <button onClick={delShoeFromCart} className='bg-red-900 h-[40px] w-20  p-2 mr-2'>remove</button>
+            <button onClick={delShoeFromCart} className='bg-red-900 h-[40px] w-20  p-2 mr-2 rounded-[2px] hover:bg-red-500'>remove</button>
     </div>
   )
 }
