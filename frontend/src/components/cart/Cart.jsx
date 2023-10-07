@@ -19,7 +19,8 @@ const Cart = () => {
       .catch((error) => {
         console.error('Error fetching cart data:', error);
       });
-  }, []);  // Empty dependency array to ensure this runs once when component mounts
+      calculateTotal()
+  }, [total]);  // Empty dependency array to ensure this runs once when component mounts
   
   const calculateTotal = () =>{
     let price = 0
