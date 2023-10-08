@@ -1,59 +1,48 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react';
 import ShoeCard from '../ShoeCard';
-// import shoe from '../../../../backend/models/shoe'
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchWishlist } from '../../store/wishlistSlice';
+import axios from 'axios';
 
 const Wishlist = () => {
-    const [wishlist , setWishlist] = useState([])
-    const deleteAll =async () => {
-      await fetch('http://localhost:3000/wishlist/deleteAll',{method: "DELETE"})
-      .then(console.log("deletedALl"))
-      .catch(e => console.log(e.message))
-      
-    }
+  const dispatch = useDispatch();
+  const { loading , shoe , error } = useSelector((state) => state.wishlist);
+  const deleteAll = () => {
+    axios.delete('http://localhost:3000/wishlist/deleteAll')
+    .then(console.log("deletedALl"))
+    .then(dispatch(fetchWishlist()))
+    .catch(e => console.log(e.message))
+    
+  }
+  useEffect(() => {
+    dispatch(fetchWishlist());
+  }, [dispatch]);
 
-    useEffect(() => {
-        fetch('http://localhost:3000/wishlist')
-          .then((res) => res.json())
-          .then((res) => {
-            const shoeIds = res.shoe.map((shoe) => shoe.shoeId);
-      
-            // Fetch shoe details for each shoeId
-            const fetchShoeDetails = async () => {
-              const details = await Promise.all(
-                shoeIds.map((shoeId) =>
-                  fetch(`http://localhost:3000/shoe/${shoeId}`)
-                  .then((res) => res.json())
-                  .then((res) => res.shoe)
-                  
-                )
-              );
-              setWishlist(details);
-              console.log(details)
-            };
-      
-            fetchShoeDetails();
-          })
-          .catch((error) => console.error('Error fetching wishlist:', error));
-      }, []);
-      if(wishlist.length === 0){
-        return <div className='bg-black h-screen w-screen flex justify-center items-center'>
-          <h1 className='text-white text-[40px]'>Loading ...</h1>
-        </div>
-      }
-
+  if (loading) {
+    return <div className='bg-black h-screen w-screen flex justify-center items-center'>
+      <h1 className='text-white text-[40px]'>Loading ...</h1>
+    </div>;
+  }
+  if (error) {
+    return <div className='bg-black h-screen w-screen flex justify-center items-center'>
+      <h1 className='text-white text-[40px]'>Something went wrong!!!</h1>
+    </div>;
+  }
+ 
   return (
     <>
-
-    <button onClick={deleteAll}>DeleteALL</button>
-    <div className=' min-h-screen w-screen p-10 flex flex-wrap'>
-      {wishlist.map((shoe , index) => {
-        return <div key={index}>
-            <ShoeCard shoe={shoe} />
-        </div>
-      })}
-    </div>
+      <div className='min-h-screen w-screen p-10 flex flex-wrap'>
+      <button onClick={deleteAll} className="bg-pink-700 text-white rounded-[4px] p-2 fixed right-10 ">Clear wishlist</button>
+        {shoe.map((shoe, index) => {
+          return (
+            <div key={index}>
+              <ShoeCard shoe={shoe.shoeId} /> {/* Assuming 'shoeId' contains the actual shoe data */}
+            </div>
+          );
+        })}
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default Wishlist
+export default Wishlist;
