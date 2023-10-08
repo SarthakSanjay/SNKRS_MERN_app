@@ -1,21 +1,31 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import ShoeCard from "./ShoeCard"
-// import { Link } from "react-router-dom"
-
+import {useDispatch , useSelector} from 'react-redux'
+import { fetchShoes } from "../store/shoeSlice"
 const Shoes = () => {
-    const [product , setProduct] = useState([])
+    const dispatch = useDispatch()
+    const {shoes , loading , error} = useSelector(state => state.shoe)
 
     useEffect(()=>{
-        fetch("http://localhost:3000/shoe/all")
-        .then((response) => response.json())
-        .then((response) => setProduct(response.shoes))
-        .catch(e => console.log(e.message))
-    },[])
+        dispatch(fetchShoes())
+    },[dispatch])
+
+    if (loading) {
+        return <div className='bg-black h-screen w-screen flex justify-center items-center'>
+          <h1 className='text-white text-[40px]'>Loading ...</h1>
+        </div>;
+      }
+      if (error) {
+        return <div className='bg-black h-screen w-screen flex justify-center items-center'>
+          <h1 className='text-white text-[40px]'>Something went wrong!!!</h1>
+        </div>;
+      }
+
   return (
     <div className="w-screen p-10 flex flex-wrap justify-center">
     <img src="https://img.freepik.com/free-vector/modern-black-friday-sale-banner-template-with-3d-background-red-splash_1361-1877.jpg?w=1060&t=st=1696705876~exp=1696706476~hmac=d8bade4b3fdb88be9a895225cedd4f4c126b081199f549f510bb9668b4ff352c" className="h-[60vh] w-[90%]  " />
     {
-        product.map((shoe) => (
+        shoes.map((shoe) => (
             <div key={shoe._id}>
                 <ShoeCard shoe={shoe} id={shoe._id} />
           
