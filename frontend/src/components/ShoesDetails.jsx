@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import WishlistBtn from './wishlist/WishlistBtn'
 import AddToCartBtn from './cart/AddToCartBtn'
 import axios from 'axios'
+
 const ShoesDetails = () => {
     const { id} = useParams()
     const [product , setProduct] = useState({})
