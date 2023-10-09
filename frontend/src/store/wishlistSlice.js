@@ -5,12 +5,13 @@ const initialState = {
   shoe: [],
   loading: false,
   error: null,
-  total: 0
+  total: 0,
 };
 
 const fetchWishlist = createAsyncThunk('wishlistSlice/fetchWishlist', async () => {
   try {
     const response = await axios.get('http://localhost:3000/wishlist');
+    // console.log(response.data.shoe)
     return response.data.shoe; // Return the 'shoe' data from the response
   } catch (error) {
     throw new Error('Error fetching wishlist: ' + error.message);
