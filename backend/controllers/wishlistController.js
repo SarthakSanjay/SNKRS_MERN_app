@@ -45,8 +45,7 @@ const deleteAllWishlist = async(req,res) =>{
 } 
 
 const getWishlist = async(req,res)=>{
-    const shoe = await WISHLIST.find({})
-    .populate('shoeId')
+    const shoe = await WISHLIST.find({}).populate('shoeId')
     if(!shoe){
         return res.status(404).json({
                 msg:"id not found "
