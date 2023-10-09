@@ -1,32 +1,28 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import CartItems from "./CartItems";
+import { fetchCart } from "../../store/cartSlice";
+import { useDispatch , useSelector } from "react-redux";
 
 const Cart = () => {
-  const [cart, setCart] = useState([]);
+  // const [cart, setCart] = useState([]);
   const [total , setTotal] = useState(0)
+
+  const dispatch = useDispatch()
+  const {cart , loading , error} = useSelector(state => state.cart)
+  // console.log("cart",cart)
   
   const clearCart = () => {
     axios.delete('http://localhost:3000/cart/deleteAll')
-    .then(console.log("deleted all cart items"))
     .then(alert("deleted all cart items"))
+    .then(dispatch(fetchCart()))
     .catch(e => console.log(e.message))
   }
 
   useEffect(() => {
-    // Fetch cart data when component mounts
-    axios.get('http://localhost:3000/cart')
-      .then((response) => {
-        console.log(response.data.shoe);
-        setCart(response.data.shoe);
-        // return response.data.shoe
-      })
-      // .then(res => console.log(res))
-      .catch((error) => {
-        console.error('Error fetching cart data:', error);
-      });
-      calculateTotal()
-  }, [total ]);  // Empty dependency array to ensure this runs once when component mounts
+  
+      dispatch(fetchCart())
+  }, [dispatch ]); 
   
   const calculateTotal = () =>{
     let price = 0
@@ -37,7 +33,16 @@ const Cart = () => {
     })
   }
 
- 
+  if (loading) {
+    return <div className='bg-black h-screen w-screen flex justify-center items-center'>
+      <h1 className='text-white text-[40px]'>Loading ...</h1>
+    </div>;
+  }
+  if (error) {
+    return <div className='bg-black h-screen w-screen flex justify-center items-center'>
+      <h1 className='text-white text-[40px]'>Something went wrong!!!</h1>
+    </div>;
+  }
 
   return (
     <div className='bg-slate-900 min-h-screen text-white w-screen flex flex-col items-center p-10'>
