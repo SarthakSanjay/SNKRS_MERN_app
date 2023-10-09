@@ -7,6 +7,7 @@ import axios from 'axios';
 const Wishlist = () => {
   const dispatch = useDispatch();
   const { loading , shoe , error } = useSelector((state) => state.wishlist);
+  // console.log('shoe', shoe)
   const deleteAll = () => {
     axios.delete('http://localhost:3000/wishlist/deleteAll')
     .then(console.log("deletedALl"))
@@ -33,13 +34,12 @@ const Wishlist = () => {
     <>
       <div className='min-h-screen w-screen p-10 flex flex-wrap'>
       <button onClick={deleteAll} className="bg-pink-700 text-white rounded-[4px] p-2 fixed right-10 ">Clear wishlist</button>
-        {shoe.map((shoe, index) => {
-          return (
-            <div key={index}>
-              <ShoeCard shoe={shoe.shoeId} /> {/* Assuming 'shoeId' contains the actual shoe data */}
-            </div>
-          );
-        })}
+        {shoe && shoe.map((wishlistItem) => {
+          {/* console.log(wishlistItem.shoeId.productName) */}
+          return <ShoeCard key={wishlistItem._id} shoe={wishlistItem.shoeId} id={wishlistItem._id} /> 
+        })
+        }
+        
       </div>
     </>
   );
