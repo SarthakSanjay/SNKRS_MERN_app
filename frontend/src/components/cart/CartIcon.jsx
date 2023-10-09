@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { LiaShoppingBagSolid} from "react-icons/lia";
 import { Link } from "react-router-dom";
-import axios from 'axios'
+import { fetchCart } from "../../store/cartSlice";
+import { useDispatch , useSelector } from "react-redux";
 const CartIcon = () => {
-  const [totalCartItems , setTotalCartItems] = useState(0)
+  const dispatch = useDispatch()
+  const {total} = useSelector(state => state.cart)
   useEffect(() =>{
-    axios.get('http://localhost:3000/cart')
-    .then(res => {setTotalCartItems(res.data.total)})
-    .catch(e => console.log(e.message))
-  })
+    dispatch(fetchCart())
+  },[dispatch])
   return (
     <Link to='/cart'>
         <LiaShoppingBagSolid className="text-3xl text-white" />
-        <h1 className="text-white absolute top-2 right-44 rounded-full bg-green-500 w-5 h-5 flex justify-center items-center " >{totalCartItems}</h1>
+        <h1 className="text-white absolute top-2 right-24 rounded-full bg-green-500 w-5 h-5 flex justify-center items-center " >{total}</h1>
         
     </Link>
   )
