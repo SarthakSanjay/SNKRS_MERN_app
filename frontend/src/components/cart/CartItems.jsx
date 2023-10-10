@@ -3,20 +3,23 @@ import {AiOutlineArrowUp ,AiOutlineArrowDown} from 'react-icons/ai'
 import axios from 'axios'
 import { fetchCart } from '../../store/cartSlice'
 import { useDispatch , useSelector } from 'react-redux'
-// import { increase,decrease } from '../../store/cartSlice'
+import { calculateTotalAmount } from '../../store/cartSlice'
 
 const CartItems = ({cartItem,id}) => {
     const dispatch = useDispatch()
-    // const {quant} = useSelector(state => state.cart)
+    const {totalAmount} = useSelector(state => state.cart)
     const [quantity , setQuantity] = useState(1)
     const [amount , setAmount] = useState(cartItem.price)
     useEffect(()=>{
         setAmount(cartItem.price * quantity)
+
+        dispatch(calculateTotalAmount(quantity))
+        // console.log(totalAmount);
         
 
     },[quantity , cartItem.price])
 
-  
+   
     // console.log('cartitems', cartItem)
     const delShoeFromCart = () =>{
         axios.delete(`http://localhost:3000/cart/${id}`)
@@ -48,6 +51,7 @@ const CartItems = ({cartItem,id}) => {
         </div>
         </div>
             <h1>${amount}</h1>
+            
             <button onClick={delShoeFromCart} className='bg-red-900 h-[40px] w-20  p-2 mr-2 rounded-[2px] hover:bg-red-500'>remove</button>
     </div>
   )

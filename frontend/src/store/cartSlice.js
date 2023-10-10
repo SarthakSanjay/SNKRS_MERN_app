@@ -6,6 +6,7 @@ const initialState = {
   loading: false,
   error: null,
   total: 0,
+  totalAmount: 0
 };
 const url = 'http://localhost:3000/cart'
 
@@ -23,7 +24,20 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-  
+    calculateTotalAmount : (state , action) =>{
+      // state.totalAmount = action.payload
+      // console.log(state.totalAmount)
+      
+      const totalAmount = state.cart.map(( cartItem) => {
+        console.log("cartItem" , cartItem.shoeId.price)
+        return cartItem.shoeId.price * action.payload
+      }) 
+
+      // Update the total amount in the state
+      state.totalAmount = totalAmount;
+      console.log(state.totalAmount);
+
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -44,5 +58,5 @@ const cartSlice = createSlice({
 });
 
 export { fetchCart };
-export const {increase , decrease} = cartSlice.actions
+export const {calculateTotalAmount} = cartSlice.actions
 export default cartSlice.reducer;
