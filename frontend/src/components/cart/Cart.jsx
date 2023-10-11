@@ -3,26 +3,37 @@ import axios from "axios";
 import CartItems from "./CartItems";
 import { fetchCart } from "../../store/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Notification from "../Notification";
 
 const Cart = () => {
   // const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
 
+  const [ noti , setNoti] = useState("hidden")
+  const [title , setTitle] = useState('')
+
   const dispatch = useDispatch();
   const { cart, loading, error ,totalAmount } = useSelector((state) => state.cart);
   // console.log("cart",cart)
-
+if(cart.length === 0) {
+  setTimeout(()=>{
+    setNoti('hidden')
+  },1200)
+}
   const clearCart = () => {
     axios
       .delete("http://localhost:3000/cart/deleteAll")
-      .then(alert("deleted all cart items"))
+      .then(setNoti(''))
       .then(dispatch(fetchCart()))
       .catch((e) => console.log(e.message));
+
+      setTitle('cart cleared')
   };
 
   useEffect(() => {
     dispatch(fetchCart());
-  }, [dispatch]);
+    
+  }, [dispatch ,noti ,title]);
 
   const calculateTotal = () => {
     let price = 0;
@@ -47,11 +58,17 @@ const Cart = () => {
       </div>
     );
   }
-
+  if(cart.length < 1){
+    return <div className="bg-slate-900 min-h-screen text-white w-screen flex flex-col items-center p-10">
+      No items
+    </div>
+  }
   return (
     <div className="bg-slate-900 min-h-screen text-white w-screen flex flex-col items-center p-10">
+    <Notification noti={noti} title={title} />
       <button
         onClick={clearCart}
+        
         className="bg-pink-700 text-white rounded-[4px] p-2 fixed right-10 "
       >
         Clear Cart

@@ -29,7 +29,9 @@ const cartSlice = createSlice({
       // console.log(state.totalAmount)
       
       const totalAmount = state.cart.map(( cartItem) => {
-        console.log("cartItem" , cartItem.shoeId.price)
+        console.log({"cartItem" : cartItem.shoeId.price,
+        "action.payload": action.payload
+      })
         return cartItem.shoeId.price * action.payload
       }) 
 
