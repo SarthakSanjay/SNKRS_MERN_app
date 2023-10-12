@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { stat } from 'fs';
+import cart from '../../../backend/models/cart';
 
 const initialState = {
   cart: [],
@@ -13,7 +15,7 @@ const url = 'http://localhost:3000/cart'
 const fetchCart = createAsyncThunk('cartSlice/fetchCart', async () => {
   try {
     const response = await axios.get(url);
-    // console.log(response.data.shoe)
+    console.log(response.data.shoe)
     return response.data.shoe; // Return the 'shoe' data from the response
   } catch (error) {
     throw new Error('Error fetching wishlist: ' + error.message);
@@ -24,21 +26,23 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
+    increase: (state , {payload}) =>{
+      const cartItem = state.cart.find((item) => item._id === payload.id)
+      cartItem.quantity += cartItem.quantity + 1
+    },
+    decrease: (state , {payload}) =>{
+      const cartItem = state.cart.find((item) => item._id === payload.id)
+      cartItem.quantity += cartItem.quantity - 1
+    },
     calculateTotalAmount : (state , action) =>{
-      // state.totalAmount = action.payload
-      // console.log(state.totalAmount)
-      
-      const totalAmount = state.cart.map(( cartItem) => {
-        console.log({"cartItem" : cartItem.shoeId.price,
-        "action.payload": action.payload
+      let quantity = 0
+      let total = 0
+      state.cart.forEach((items) => {
+        quantity += items.quantity
+        total += quantity * items.shoeId.price
       })
-        return cartItem.shoeId.price * action.payload
-      }) 
-
-      // Update the total amount in the state
-      state.totalAmount = totalAmount;
-      console.log(state.totalAmount);
-
+      state.total = quantity
+      state.totalAmount = total
     }
   },
   extraReducers: (builder) => {
