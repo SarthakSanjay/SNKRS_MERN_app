@@ -11,7 +11,8 @@ import {
 
 const CartItems = ({ cartItem, id }) => {
   const dispatch = useDispatch();
-  const {quantity} = useSelector(state => state.cart)
+  const {quantity,cart} = useSelector(state => state.cart)
+//   console.log('cart',cart);
   // const {totalAmount} = useSelector(state => state.cart)
   // const [quantity , setQuantity] = useState(1)
   // const [amount , setAmount] = useState(cartItem.price)

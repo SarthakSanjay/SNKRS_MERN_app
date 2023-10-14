@@ -9,6 +9,7 @@ const initialState = {
   totalAmount: 0,
   quantity: 1
 };
+
 const url = 'http://localhost:3000/cart'
 
 const fetchCart = createAsyncThunk('cartSlice/fetchCart', async () => {
@@ -26,9 +27,15 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     increase: (state , {payload}) =>{
-      // const cartItem = state.cart.find((item) => item._id === payload.id)
+      const cartItem = state.cart.find((item) => {
+        item._id === payload.id
+        console.log(item);
+      })
+
       // cartItem.quantity += cartItem.quantity + 1
-      console.log()
+      // console.log(cartItem.quantity)
+      // console.log(JSON.stringify(state.cart, null, 2));
+
     },
     decrease: (state , {payload}) =>{
       const cartItem = state.cart.find((item) => item._id === payload.id)
@@ -55,7 +62,7 @@ const cartSlice = createSlice({
         state.loading = false;
         state.error = null;
         state.total = action.payload.length
-        
+
         state.quantity = action.payload[0].quantity
         // console.log("payload",action.payload[0].quantity)
       })
