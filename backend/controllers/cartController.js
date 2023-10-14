@@ -56,5 +56,11 @@ const getCartItems = async(req,res)=>{
         total: shoe.length
     })
 }
-
-module.exports = {addToCart , deleteAllCartItems , deleteCartItem , getCartItems}
+const updateCartQuantity =async (req,res) =>{
+    const shoe = await CART.updateOne({ _id: req.params.id }, { quantity: req.body.quantity });
+    if(!shoe) {
+        return res.status(404).json({msg:"item not found"})
+    }
+    res.status(200).json({msg:"successfully updated",shoe:shoe})
+}
+module.exports = {addToCart , deleteAllCartItems , deleteCartItem , getCartItems , updateCartQuantity} 
