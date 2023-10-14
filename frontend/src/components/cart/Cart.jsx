@@ -33,7 +33,7 @@ if(cart.length === 0) {
   useEffect(() => {
     dispatch(fetchCart());
     
-  }, [dispatch ,noti ,title]);
+  }, [dispatch ,noti ,title ]);
 
   const calculateTotal = () => {
     let price = 0;
