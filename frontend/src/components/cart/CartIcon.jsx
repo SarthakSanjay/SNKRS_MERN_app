@@ -5,14 +5,14 @@ import { fetchCart } from "../../store/cartSlice";
 import { useDispatch , useSelector } from "react-redux";
 const CartIcon = () => {
   const dispatch = useDispatch()
-  const {total} = useSelector(state => state.cart)
+  const {totalItems} = useSelector(state => state.cart)
   useEffect(() =>{
     dispatch(fetchCart())
   },[dispatch])
   return (
     <Link to='/cart'>
         <LiaShoppingBagSolid className="text-3xl text-white" />
-        <h1 className="text-white absolute top-2 right-24 rounded-full bg-green-500 w-5 h-5 flex justify-center items-center " >{total}</h1>
+        <h1 className="text-white absolute top-2 right-24 rounded-full bg-green-500 w-5 h-5 flex justify-center items-center " >{totalItems}</h1>
         
     </Link>
   )
