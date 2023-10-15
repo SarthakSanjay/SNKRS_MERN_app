@@ -4,13 +4,11 @@ import CartItems from "./CartItems";
 import { fetchCart } from "../../store/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Notification from "../Notification";
-
 const Cart = () => {
-  // const [cart, setCart] = useState([]);
-  const [total, setTotal] = useState(0);
 
   const [ noti , setNoti] = useState("hidden")
   const [title , setTitle] = useState('')
+
 
   const dispatch = useDispatch();
   const { cart, loading, error ,totalAmount } = useSelector((state) => state.cart);
@@ -29,20 +27,13 @@ if(cart.length === 0) {
 
       setTitle('cart cleared')
   };
+ 
 
   useEffect(() => {
     dispatch(fetchCart());
-    
-  }, [dispatch ,noti ,title ]);
+        
+  }, [dispatch]);
 
-  const calculateTotal = () => {
-    let price = 0;
-    cart.forEach((items) => {
-      price += items.shoeId.price;
-      setTotal(price);
-      console.log(items.shoeId.price);
-    });
-  };
 
   if (loading) {
     return (
@@ -82,13 +73,14 @@ if(cart.length === 0) {
           />
         );
       })}
+     
       <h1>Total: {totalAmount} </h1>
-      <button
+      {/* <button
         className="bg-green-500 text-white p-2 rounded-[2px] hover:bg-green-700 "
-        onClick={calculateTotal}
+        // onClick={calculateTotal}
       >
         calculateTotal
-      </button>
+      </button> */}
     </div>
   );
 };
