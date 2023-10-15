@@ -42,7 +42,8 @@ const cartSlice = createSlice({
         state.loading = false;
         state.error = null;
         state.totalItems = action.payload.length
-        state.totalAmount = calculateTotalAmount(action.payload)
+        state.totalAmount = calculateTotalAmount(action.payload)       
+      
       })
       .addCase(fetchCart.rejected, (state, action) => {
         state.loading = false;
