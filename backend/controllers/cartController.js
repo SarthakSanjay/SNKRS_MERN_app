@@ -63,4 +63,11 @@ const updateCartQuantity =async (req,res) =>{
     }
     res.status(200).json({msg:"successfully updated",shoe:shoe})
 }
-module.exports = {addToCart , deleteAllCartItems , deleteCartItem , getCartItems , updateCartQuantity} 
+const getSpecificCartItem = async (req, res) =>{
+    const shoe = await CART.findById(req.params.id)
+    if(!shoe){
+        return res.status(404).json({msg:'not found'})
+    }
+    res.status(200).json({msg:"success",shoe:shoe})
+}
+module.exports = {addToCart , deleteAllCartItems , deleteCartItem , getCartItems , updateCartQuantity ,getSpecificCartItem} 
