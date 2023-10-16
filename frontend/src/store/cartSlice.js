@@ -7,7 +7,6 @@ const initialState = {
   error: null,
   totalItems: 0,
   totalAmount: 0,
-  amount: 0
 };
 
 const fetchCart = createAsyncThunk('cartSlice/fetchCart', async () => {
@@ -30,7 +29,6 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-  
   },
   extraReducers: (builder) => {
     builder
@@ -42,8 +40,9 @@ const cartSlice = createSlice({
         state.loading = false;
         state.error = null;
         state.totalItems = action.payload.length
-        state.totalAmount = calculateTotalAmount(action.payload)       
-      
+        state.totalAmount = calculateTotalAmount(action.payload)
+        
+        
       })
       .addCase(fetchCart.rejected, (state, action) => {
         state.loading = false;
