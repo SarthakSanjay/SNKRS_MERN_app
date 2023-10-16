@@ -47,6 +47,10 @@ const shoeSchema = mongoose.Schema({
     },
     image:{
         type:[String]
+    },
+    wishlisted:{
+        type:Boolean,
+        default: false
     }
 })
 
