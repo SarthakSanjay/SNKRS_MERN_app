@@ -16,7 +16,7 @@ const Cart = () => {
 if(cart.length === 0) {
   setTimeout(()=>{
     setNoti('hidden')
-  },1200)
+  },9000)
 }
   const clearCart = () => {
     axios
@@ -26,6 +26,7 @@ if(cart.length === 0) {
       .catch((e) => console.log(e.message));
 
       setTitle('cart cleared')
+      dispatch(fetchCart())
   };
  
 
