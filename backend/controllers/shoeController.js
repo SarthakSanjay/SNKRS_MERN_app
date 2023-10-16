@@ -57,4 +57,11 @@ const addShoe = async(req,res)=>{
     })
 }
 
-module.exports = { addShoe , getAllShoes , getSpecificShoe}
+const updateShoeClicked = async (req, res) =>{
+    const shoe = await SHOES.updateOne({ _id: req.params.id }, { wishlisted: req.body.wishlisted });
+    if(!shoe) {
+        return res.status(404).json({msg:"item not found"})
+    }
+    res.status(200).json({msg:"successfully updated",shoe:shoe})
+}
+module.exports = { addShoe , getAllShoes , getSpecificShoe , updateShoeClicked}
