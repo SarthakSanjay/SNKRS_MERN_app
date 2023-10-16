@@ -5,10 +5,21 @@ import { fetchShoes } from "../store/shoeSlice";
 const Shoes = () => {
   const dispatch = useDispatch();
   const { shoes, loading, error } = useSelector((state) => state.shoe);
-
+  const {deleteBtnClicked} = useSelector(store => store.wishlist)
+  // console.log(shoes)
   useEffect(() => {
     dispatch(fetchShoes());
   }, [dispatch]);
+
+  const defaultWishlisted = () =>{
+    shoes.forEach((item)=>{
+      item.wishlisted = false
+    })
+  }
+
+  // if(deleteBtnClicked){
+  //   // defaultWishlisted()
+  // }
 
   if (loading) {
     return (
@@ -27,10 +38,10 @@ const Shoes = () => {
 
   return (
     <div className="w-screen p-10 flex flex-wrap justify-center">
-      <img
+      {/* <img
         src="https://img.freepik.com/free-vector/modern-black-friday-sale-banner-template-with-3d-background-red-splash_1361-1877.jpg?w=1060&t=st=1696705876~exp=1696706476~hmac=d8bade4b3fdb88be9a895225cedd4f4c126b081199f549f510bb9668b4ff352c"
         className="h-[60vh] w-[90%]  "
-      />
+      /> */}
       {shoes.map((shoe) => {
         {/* console.log("mofo",shoe); */}
         return (
