@@ -21,16 +21,16 @@ const CartItems = ({ cartItem, id }) => {
   };
 
   const handleIncrease = () => {
+    dispatch(fetchCart())
     setQuantity((prevQuantity) => prevQuantity + 1);
     updateQuantity(quantity + 1);
-    // dispatch(fetchCart())
   };
   
   const handleDecrease = () => {
+    dispatch(fetchCart())
     if (quantity > 0) {
       setQuantity((prevQuantity) => prevQuantity - 1);
       updateQuantity(quantity - 1);
-      // dispatch(fetchCart())
     }
   };
 
