@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import ShoeCard from '../ShoeCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchWishlist } from '../../store/wishlistSlice';
+import { deleteAll } from '../../store/wishlistSlice';
 import axios from 'axios';
 
 const Wishlist = () => {
@@ -11,10 +12,13 @@ const Wishlist = () => {
   const deleteAll = () => {
     axios.delete('http://localhost:3000/wishlist/deleteAll')
     .then(console.log("deletedALl"))
+    .then(dispatch(deleteAll()))
     .then(dispatch(fetchWishlist()))
     .catch(e => console.log(e.message))
+
     
   }
+ 
   useEffect(() => {
     dispatch(fetchWishlist());
   }, [dispatch]);
