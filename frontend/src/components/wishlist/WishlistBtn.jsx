@@ -4,33 +4,44 @@ import { fetchWishlist } from "../../store/wishlistSlice";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 
-const WishlistBtn = ({  text , id}) => {
-  const [clicked, setClicked] = useState(false);
-  const dispatch = useDispatch();
-  
-   const getWishlist = () => {
-    axios.post("http://localhost:3000/wishlist/add", {
-      _id: id,
-    });
-  };
-  const handleClick = () => {
-    getWishlist()
-    alert("added to wishlist");
-    dispatch(fetchWishlist());
-
-  };
-
-  useEffect(()=>{
-    axios.get('http://localhost:3000/wishlist')
-    .then((res) => {
-      if(res.data.shoe._id === id){
-        setClicked(true)
-      }else{
-        setClicked(false)
-      }
+const WishlistBtn = ({  text , id ,wishlisted  }) => {
+  const dispatch = useDispatch()
+  const [clicked , setClicked] = useState(true)
+  const addToWishlist = () =>{
+    axios.post(`http://localhost:3000/wishlist/add`,{
+      _id: id
     })
-  },[])
+    .then(alert('added to wishlist'))
+  }
+  const deleteFromWishlist = () =>{
+    axios.delete(`http://localhost:3000/wishlist/remove/${id}`)
+    .then(alert('removed form wishlist'))
+  }
 
+  const updateWishlisted = (wishlisted) =>{
+    axios.patch(`http://localhost:3000/shoe/${id}`,{
+      wishlisted : wishlisted
+    })
+  }
+
+
+  const handleClick = () => {
+    if (clicked) {
+      addToWishlist();
+      setClicked(false);
+      updateWishlisted(true)
+      dispatch(fetchWishlist());
+    } else {
+      deleteFromWishlist();
+      setClicked(true);
+      updateWishlisted(false)
+      dispatch(fetchWishlist());
+    }
+  }
+  
+ useEffect(()=>{
+  // dispatch(fetchWishlist())
+ },[])
 
   if (!text) {
     return (
@@ -38,10 +49,10 @@ const WishlistBtn = ({  text , id}) => {
         onClick={handleClick}
         className="w-10 h-10 bg-black hover:bg-white hover:text-black rounded-full flex justify-center items-center text-white"
       >
-        {!clicked ? (
-          <LiaHeart className="text-2xl " />
-        ) : (
+        {wishlisted  ? (
           <LiaHeartSolid className=" text-2xl text-pink-400" />
+        ) : (
+          <LiaHeart className="text-2xl " />
         )}
       </button>
     );
@@ -52,7 +63,7 @@ const WishlistBtn = ({  text , id}) => {
       className="w-52 h-10 bg-black hover:bg-white hover:text-black rounded-full flex justify-center items-center text-white"
     >
       {text ? "Favourite" : ""}
-      {!clicked ? (
+      {wishlisted ? (
         <LiaHeart className="ml-2 text-2xl " />
       ) : (
         <LiaHeartSolid className="ml-2 text-2xl text-pink-400" />
