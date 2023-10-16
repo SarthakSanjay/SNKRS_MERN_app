@@ -6,6 +6,7 @@ const initialState = {
   loading: false,
   error: null,
   total: 0,
+  deleteBtnClicked: false
 };
 
 const fetchWishlist = createAsyncThunk('wishlistSlice/fetchWishlist', async () => {
@@ -21,7 +22,11 @@ const fetchWishlist = createAsyncThunk('wishlistSlice/fetchWishlist', async () =
 const wishlistSlice = createSlice({
   name: 'wishlist',
   initialState,
-  reducers: {},
+  reducers: {
+    deleteAll: (state,action) =>{
+      state.deleteBtnClicked = true
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchWishlist.pending, (state) => {
@@ -41,4 +46,5 @@ const wishlistSlice = createSlice({
 });
 
 export { fetchWishlist };
+export const {deleteAll} = wishlistSlice.actions;
 export default wishlistSlice.reducer;
