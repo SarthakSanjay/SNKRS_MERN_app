@@ -10,28 +10,30 @@ const CartItems = ({ cartItem, id }) => {
   const dispatch = useDispatch();
   const {amount} = useSelector(store => store.cart)
 
-  const fetchQuantity = () => {
-    axios.get(`http://localhost:3000/cart/${id}`).then((res) => {
-      setQuantity(res.data.shoe.quantity);
-    });
-  };
+ 
 
   const updateQuantity = (newQuantity) => {
     axios.patch(`http://localhost:3000/cart/${id}`, { quantity: newQuantity });
   };
 
   const handleIncrease = () => {
-    dispatch(fetchCart())
     setQuantity((prevQuantity) => prevQuantity + 1);
     updateQuantity(quantity + 1);
+    dispatch(fetchCart())
+    console.log("clicked up")
   };
   
   const handleDecrease = () => {
-    dispatch(fetchCart())
     if (quantity > 0) {
       setQuantity((prevQuantity) => prevQuantity - 1);
       updateQuantity(quantity - 1);
     }
+    if(quantity === 0){
+      handleDelete()
+      dispatch(fetchCart())
+    } 
+    dispatch(fetchCart())
+    console.log("clicked down")
   };
 
   const handleDelete = () => {
@@ -41,14 +43,16 @@ const CartItems = ({ cartItem, id }) => {
     dispatch(fetchCart())
   };
 
-  if(quantity === 0){
-    handleDelete()
-    dispatch(fetchCart())
-  }
+  
   
   useEffect(() => {
+    const fetchQuantity = () => {
+      axios.get(`http://localhost:3000/cart/${id}`).then((res) => {
+        setQuantity(res.data.shoe.quantity);
+      });
+    };
     fetchQuantity();
-  }, [id ]); // Only fetch quantity when id changes
+  }, [id ,quantity ]); // Only fetch quantity when id changes
 
   const { productName, image ,price} = cartItem;
 
