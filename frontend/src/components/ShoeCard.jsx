@@ -3,7 +3,7 @@ import WishlistBtn from "./wishlist/WishlistBtn";
 import axios from "axios";
 import { fetchWishlist } from "../store/wishlistSlice";
 import { useDispatch } from "react-redux";
-
+import {AiOutlineDelete} from 'react-icons/ai'
 const ShoeCard = ({ shoe, id, wishlisted, inWishlist }) => {
   const dispatch = useDispatch()
   if (!shoe) {
@@ -41,19 +41,21 @@ const ShoeCard = ({ shoe, id, wishlisted, inWishlist }) => {
       <div className=" h-max w-52 m-10 cursor-pointer text-white">
         <Link to={`/shoe/${id}`}>
           <img
-            src={image[Math.floor(Math.random() * 3)]}
+            src={image[0]}
             className="w-full object-cover h-40"
           />
           <h3 className="ml-2 p-1">{productName}</h3>
           <h3 className="ml-2 p-1">Price: ${price}</h3>
         </Link>
-        <div className=" relative left-40 bottom-12 ">
+        <div className=" relative left-40 bottom-12  ">
           {inWishlist ? (
             <button
               onClick={handleDelete}
-              className="bg-red-900 h-[40px] w-20 p-2  rounded-[2px] hover:bg-red-500"
+              className="bg-red-900 h-[40px] w-10 flex justify-center items-center  rounded-[2px] hover:bg-red-500
+              
+              "
             >
-              remove
+              <AiOutlineDelete />
             </button>
           ) : (
             <WishlistBtn text={false} id={id} wishlisted={wishlisted} />
