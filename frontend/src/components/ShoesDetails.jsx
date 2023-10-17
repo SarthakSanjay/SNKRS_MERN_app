@@ -8,6 +8,7 @@ const ShoesDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [image, setImage] = useState(null);
+  const [wishlisted , setWishlisted] = useState(false)
 
   // console.log(image)
   const handleClick = (e) => {
@@ -28,6 +29,7 @@ const ShoesDetails = () => {
       .then((response) => {
         setProduct(response.shoe);
         setImage(response.shoe.image[0]);
+        setWishlisted(response.shoe.wishlisted)
 
         // console.log(response.shoe)
       })
@@ -71,7 +73,7 @@ const ShoesDetails = () => {
         <br />
         <h2>Rating: {product.rating} </h2>
         <br />
-        <WishlistBtn text={true}  id={id} />
+        <WishlistBtn text={true}  id={id} wishlisted={wishlisted} />
         <br />
         <AddToCartBtn addToCart={addToCart} />
       </div>
