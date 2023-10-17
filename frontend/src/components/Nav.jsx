@@ -6,11 +6,15 @@ import NavLinks from "./navItems/NavLinks";
 
 const Nav = () => {
   return (
-    <div className="flex justify-evenly bg-zinc-800 h-14 items-center w-screen sticky top-0">
+    <div className="flex justify-evenly bg-zinc-800 h-14 items-center w-screen sticky top-0 max-sm:justify-between p-2 ">
       <Logo className="w-1/3 " />
+      <div className="max-sm:hidden">
       <NavLinks />
+      </div>
       <div className="flex items-center w-1/3 justify-around">
+      <div className="max-sm:hidden">
         <Search />
+      </div>
         <WishListIcon />
         <CartIcon />
       </div>
