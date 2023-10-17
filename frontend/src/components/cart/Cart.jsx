@@ -4,6 +4,7 @@ import CartItems from "./CartItems";
 import { fetchCart } from "../../store/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Notification from "../Notification";
+import Spinner from "../Spinner";
 const Cart = () => {
 
   const [ noti , setNoti] = useState("hidden")
@@ -11,7 +12,7 @@ const Cart = () => {
 
 
   const dispatch = useDispatch();
-  const { cart, loading, error ,totalAmount } = useSelector((state) => state.cart);
+  const { cart, loading, error ,totalAmount , quantity } = useSelector((state) => state.cart);
   // console.log("cart",cart)
 if(cart.length === 0) {
   setTimeout(()=>{
@@ -32,16 +33,12 @@ if(cart.length === 0) {
 
   useEffect(() => {
     dispatch(fetchCart());
-        
-  }, [dispatch]);
+        console.log(totalAmount);
+  }, [dispatch , quantity]);
 
 
   if (loading) {
-    return (
-      <div className="bg-black h-screen w-screen flex justify-center items-center">
-        <h1 className="text-white text-[40px]">Loading ...</h1>
-      </div>
-    );
+    return <Spinner />
   }
   if (error) {
     return (
