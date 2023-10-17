@@ -9,13 +9,13 @@ const WishListIcon = () => {
   useEffect(() => {
     dispatch(fetchWishlist())
 
-  }, []);
+  }, [total,dispatch]);
 
   return (
     <Link to="/wishlist">
-      <div className=" h-10 w-20 flex justify-center items-center  relative text-white">
-        <LiaHeart className=" text-3xl " />
-        <div className="w-5 h-5 bg-pink-400 text-white flex justify-center items-center rounded-full absolute top-0 right-4">
+      <div className=" border-red-700 border-[2px] h-14 w-14 flex justify-center items-center ">
+        <LiaHeart className="text-3xl text-white absolute " />
+        <div className="text-white relative bottom-3 left-3  rounded-full bg-pink-500 w-5 h-5 flex justify-center items-center ">
           {total}
         </div>
       </div>
