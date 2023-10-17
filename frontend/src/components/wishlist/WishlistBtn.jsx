@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { LiaHeart, LiaHeartSolid } from "react-icons/lia";
 import { fetchWishlist } from "../../store/wishlistSlice";
+import { fetchShoes } from "../../store/shoeSlice";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 
@@ -12,6 +13,7 @@ const WishlistBtn = ({  text , id ,wishlisted  }) => {
       _id: id
     })
     .then(alert('added to wishlist'))
+    .then(dispatch(fetchShoes()))
   }
   const deleteFromWishlist = () =>{
     axios.delete(`http://localhost:3000/wishlist/remove/${id}`)
@@ -30,18 +32,16 @@ const WishlistBtn = ({  text , id ,wishlisted  }) => {
       addToWishlist();
       setClicked(false);
       updateWishlisted(true)
-      dispatch(fetchWishlist());
+      dispatch(fetchShoes());
+      dispatch(fetchWishlist())
     } else {
       deleteFromWishlist();
       setClicked(true);
       updateWishlisted(false)
-      dispatch(fetchWishlist());
+      dispatch(fetchShoes());
+      dispatch(fetchWishlist())
     }
   }
-  
- useEffect(()=>{
-  // dispatch(fetchWishlist())
- },[])
 
   if (!text) {
     return (
@@ -49,7 +49,7 @@ const WishlistBtn = ({  text , id ,wishlisted  }) => {
         onClick={handleClick}
         className="w-10 h-10 bg-black hover:bg-white hover:text-black rounded-full flex justify-center items-center text-white"
       >
-        {wishlisted  ? (
+        {wishlisted ? (
           <LiaHeartSolid className=" text-2xl text-pink-400" />
         ) : (
           <LiaHeart className="text-2xl " />
@@ -64,9 +64,9 @@ const WishlistBtn = ({  text , id ,wishlisted  }) => {
     >
       {text ? "Favourite" : ""}
       {wishlisted ? (
-        <LiaHeart className="ml-2 text-2xl " />
-      ) : (
         <LiaHeartSolid className="ml-2 text-2xl text-pink-400" />
+      ) : (
+        <LiaHeart className="ml-2 text-2xl " />
       )}
     </button>
   );
