@@ -13,7 +13,7 @@ const WishListIcon = () => {
 
   return (
     <Link to="/wishlist">
-      <div className=" border-red-700 border-[2px] h-14 w-14 flex justify-center items-center ">
+      <div className="  h-14 w-14 flex justify-center items-center ">
         <LiaHeart className="text-3xl text-white absolute " />
         <div className="text-white relative bottom-3 left-3  rounded-full bg-pink-500 w-5 h-5 flex justify-center items-center ">
           {total}
