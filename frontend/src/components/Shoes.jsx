@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import ShoeCard from "./ShoeCard";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchShoes } from "../store/shoeSlice";
+import Spinner from "./Spinner";
 const Shoes = () => {
   const dispatch = useDispatch();
   const { shoes, loading, error } = useSelector((state) => state.shoe);
@@ -11,22 +12,8 @@ const Shoes = () => {
     dispatch(fetchShoes());
   }, [dispatch]);
 
-  const defaultWishlisted = () =>{
-    shoes.forEach((item)=>{
-      item.wishlisted = false
-    })
-  }
-
-  // if(deleteBtnClicked){
-  //   // defaultWishlisted()
-  // }
-
   if (loading) {
-    return (
-      <div className="bg-black h-screen w-screen flex justify-center items-center">
-        <h1 className="text-white text-[40px]">Loading ...</h1>
-      </div>
-    );
+    return <Spinner />
   }
   if (error) {
     return (
@@ -46,7 +33,7 @@ const Shoes = () => {
         {/* console.log("mofo",shoe); */}
         return (
           <div key={shoe._id}>
-            <ShoeCard shoe={shoe} id={shoe._id} />
+            <ShoeCard shoe={shoe} id={shoe._id} wishlisted={shoe.wishlisted} />
           </div>
         );
       })}
