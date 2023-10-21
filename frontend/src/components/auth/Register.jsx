@@ -1,6 +1,12 @@
 const Register = () => {
   return (
-    <div>Register</div>
+    <div className="h-52 w-32">
+        <label>Email/username</label>
+        <input type="email" />
+        <label>password</label>
+        <input type="password" />
+        <button type="submit">Register</button>
+    </div>
   )
 }
 
