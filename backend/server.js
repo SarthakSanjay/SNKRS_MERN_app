@@ -16,6 +16,10 @@ app.use('/shoe',shoeRouter)
 app.use('/category', categoryRouter)
 app.use('/cart' , cartRouter)
 
+app.post('/register',(req,res)=>{
+    console.log(req.body)
+})
+
 const start = async () => {
     try {
         await mongoose.connect(process.env.SHOES)
