@@ -28,8 +28,8 @@ const Login = () => {
   };
 
   return (
-    <div className="h-52 w-32">
-      <form onSubmit={handleSubmit}>
+    <div className=" h-screen w-screen bg-black text-white flex justify-center items-center " >
+      <form onSubmit={handleSubmit} className="h-52 w-32">
         <label>Email/username</label>
         <input type="email" value={email} onChange={handleEmailChange} />
         <label>Password</label>
