@@ -20,7 +20,10 @@ app.use('/cart' , cartRouter)
 app.post('/register', createUser)
 app.get('/register', (req,res) => {
     const user =  USER.find({})
-    res.status(200).json({user:user})
+    res.status(200).json({
+        user:user,
+    total:user.length
+})
 })
 
 const start = async () => {
