@@ -1,18 +1,13 @@
 const USER = require('../models/user')
 
-const createUser = async(req, res) =>{
-    const user =   await USER.create({
-           email: req.body.email,
-           password: req.body.password
-       })
-
-       return res.status(200).json({msg:'new user created',user:user})
-    // const user = await USER.find({email: req.body.email})
-    // if(!user){
-    // }
-
-    // res.status(200).json({msg:"user already exist"})
-    // res.redirect('/login')
+const login = async( req ,res) =>{
+    const {email , password } = req.body
+    const user = await USER.find({email: email , password: password})
+    if(!user){
+        return res.status(404).json({msg:"can't login"})
+    }
+    console.log(user)
+    res.status(200).json({msg:"logged in successfully"})
 }
 
-module.exports = {createUser}
+module.exports = login

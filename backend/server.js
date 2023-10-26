@@ -8,23 +8,18 @@ const wishlistRouter = require('./routes/wishlist')
 const shoeRouter = require('./routes/shoe')
 const categoryRouter = require('./routes/category')
 const cartRouter = require('./routes/cart')
-const { createUser } = require('./controllers/auth')
-const USER = require('./models/user')
+const userRouter = require('./routes/user')
+const login = require('./controllers/auth')
+
 app.use(cors())
 app.use(express.json())
 app.use('/wishlist', wishlistRouter)
 app.use('/shoe',shoeRouter)
 app.use('/category', categoryRouter)
 app.use('/cart' , cartRouter)
+app.use('/register', userRouter)
 
-app.post('/register', createUser)
-app.get('/register', (req,res) => {
-    const user =  USER.find({})
-    res.status(200).json({
-        user:user,
-    total:user.length
-})
-})
+app.post('/login', login)
 
 const start = async () => {
     try {

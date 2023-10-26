@@ -1,10 +1,26 @@
 const USER = require('../models/user')
 
-// const login = async (req, res ) =>{
-//     const {email , password } = req.body
-//     const user =  await USER.find({email: email})
-//     if(!user){
-//         return res.status(404).json({msg: 'user not found'})
-//     }
-//     const userPassword = await USER.find({password: password})
-// }
+const createUser = async(req, res) =>{
+    const user =   await USER.create({
+           email: req.body.email,
+           password: req.body.password
+       })
+
+     res.status(200).json({msg:'new user created',user:user})
+   
+}
+
+const getUser = async( req , res) =>{
+    const users = await USER.find({})
+
+    res.status(200).json({
+        msg: 'success',
+        users: users
+    })
+}
+
+const deleteAllUser = async(req,res) =>{
+    const user = await USER.deleteMany()
+    res.status(200).json({msg:"success deleted all user"})
+}
+module.exports = {createUser , getUser , deleteAllUser}
