@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link  from '@mui/material/Link';
-import { Link as RRDLink} from 'react-router-dom';
+import { Link as RRDLink , useNavigate} from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -33,6 +33,20 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function Login() {
+
+const [logged , setLogged] = React.useState(false)
+const [password , setPassword] = React.useState(true)
+const navigate = useNavigate()
+
+
+
+React.useEffect(()=>{
+  if(logged){
+    navigate('/')
+  
+  }
+},[logged , password])
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -40,6 +54,11 @@ export default function Login() {
       email: data.get('email'),
       password: data.get('password'),
     })
+    .then(res =>{
+      setLogged(res.data.success)
+      setPassword(res.data.password)
+    })
+    .catch(e => console.log(e.message))
     console.log({
       email: data.get('email'),
       password: data.get('password'),
@@ -84,6 +103,8 @@ export default function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
+              error={password ? false : true}
+              
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
