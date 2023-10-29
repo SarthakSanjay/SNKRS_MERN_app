@@ -4,6 +4,7 @@ import WishListIcon from "./wishlist/WishListIcon";
 import CartIcon from "./cart/CartIcon";
 import NavLinks from "./navItems/NavLinks";
 import Dropdown from "./navItems/Dropdown";
+import Profile from "./Profile";
 
 const Nav = () => {
   return (
@@ -18,6 +19,7 @@ const Nav = () => {
       </div>
         <WishListIcon />
         <CartIcon />
+        <Profile />
         <div className="">
           <Dropdown />
         </div>
