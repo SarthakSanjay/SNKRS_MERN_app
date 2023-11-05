@@ -30,6 +30,8 @@ const getAllShoes = async(req,res)=>{
     })
 }
 
+//Admin route
+
 const addShoe = async(req,res)=>{
     let {
         productName ,
@@ -64,4 +66,24 @@ const updateShoeClicked = async (req, res) =>{
     }
     res.status(200).json({msg:"successfully updated",shoe:shoe})
 }
-module.exports = { addShoe , getAllShoes , getSpecificShoe , updateShoeClicked}
+
+const updateShoe = async(req,res) =>{
+    let shoe = await SHOES.findById(req.params.id)
+    if(!shoe){
+        return res.status(500).json({
+            success:'false',
+            msg: "Product not found"
+        })
+    }
+        shoe = await SHOES.findByIdAndUpdate(req.params.id , req.body,{
+            new:true,
+            runValidators:true,
+            useFindAndModify:false
+        })
+        res.status(200).json({
+            success:true,
+            shoe:shoe
+        })
+    
+}
+module.exports = { addShoe , getAllShoes , getSpecificShoe , updateShoeClicked , updateShoe}
