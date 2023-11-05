@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Link from "react-redux";
+import {Link} from "react-router-dom";
 const Profile = () => {
   const [display, setDisplay] = useState(false);
   const handleClick = () => {
@@ -8,14 +8,14 @@ const Profile = () => {
   return (
     <>
       <div
-        className=" border-[1px] border-red-500  text-white cursor-pointer "
+        className=" border-[1px] border-red-500  text-white cursor-pointer  "
         onClick={handleClick}
       >
         Profile
       </div>
 
       {display ? (
-        <div className="h-[90vh] w-[300px] bg-pink-900 absolute z-100 top-[55px] right-0  ">
+        <div className="h-[90vh] w-[300px] bg-pink-900 absolute z-50 top-[55px] right-0  ">
           side menu
           <button className="bg-black rounded-[2px] text-white">
             <Link to='/login'>Login</Link>
