@@ -10,9 +10,13 @@ const categoryRouter = require('./routes/category')
 const cartRouter = require('./routes/cart')
 const userRouter = require('./routes/user')
 const login = require('./controllers/auth')
+const {search} = require('./controllers/search')
 
 app.use(cors())
-app.use(express.json())
+app.use(express.json({limit:"20kb"})) //{limit:""} professional code
+app.use(express.urlencoded({extended:true , limit: "16kb"})) // how url is encoded eg. sharko+king or sharko%20king
+
+
 app.use('/wishlist', wishlistRouter)
 app.use('/shoe',shoeRouter)
 app.use('/category', categoryRouter)
@@ -21,7 +25,10 @@ app.use('/register', userRouter)
 
 app.post('/login', login)
 
+app.get('/search',search)
+
 const start = async () => {
+    //always use trycatch for database connection
     try {
         await mongoose.connect(process.env.SHOES)
         .then(()=>{
