@@ -26,6 +26,7 @@ app.use('/register', userRouter)
 app.post('/login', login)
 
 app.get('/search',search)
+app.get('/search2',search)
 
 const start = async () => {
     //always use trycatch for database connection
