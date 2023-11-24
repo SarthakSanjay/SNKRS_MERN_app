@@ -12,6 +12,8 @@ const userRouter = require('./routes/user')
 const login = require('./controllers/auth')
 const {search} = require('./controllers/search')
 
+const searchRouter = require('./routes/search')
+
 app.use(cors())
 app.use(express.json({limit:"20kb"})) //{limit:""} professional code
 app.use(express.urlencoded({extended:true , limit: "16kb"})) // how url is encoded eg. sharko+king or sharko%20king
@@ -25,8 +27,8 @@ app.use('/register', userRouter)
 
 app.post('/login', login)
 
-app.get('/search',search)
-app.get('/search2',search)
+app.use('/search',searchRouter)
+// app.get('/search2',search)
 
 const start = async () => {
     //always use trycatch for database connection
