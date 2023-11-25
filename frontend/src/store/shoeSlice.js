@@ -6,16 +6,14 @@ const initialState = {
     error : null
 }
 
-const url = "http://localhost:3000/shoe/all"
-const fetchShoes = createAsyncThunk('shoeSlice/fetchShoes', async () => {
+  const fetchShoes = createAsyncThunk('shoeSlice/fetchShoes', async (url) => {
     try {
       const response = await axios.get(url);
-    //   console.log(response.data.shoes)
-      return response.data.shoes; // Return the 'shoe' data from the response
+      return response.data.shoes;
     } catch (error) {
-      throw new Error('Error fetching wishlist: ' + error.message);
+      throw new Error('Error fetching shoes: ' + error.message);
     }
-  })
+  });
 
 const shoeSlice = createSlice({
     name: 'shoe',
