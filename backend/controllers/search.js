@@ -2,6 +2,7 @@ const SHOES = require('../models/shoe')
 
 const search = async(req,res) =>{
   const {search} = req.query
+ 
   if(!search){
     return res.status(400).json({error:"search query is required"})
   }
@@ -16,7 +17,7 @@ const search = async(req,res) =>{
     })
     res.status(200).json({
       success:true,
-      shoe:shoe,
+      shoes:shoe,
       total:shoe.length
 
     })
