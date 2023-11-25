@@ -9,13 +9,15 @@ const Shoes = () => {
   const {deleteBtnClicked} = useSelector(store => store.wishlist)
   // console.log(shoes)
   useEffect(() => {
-    dispatch(fetchShoes());
+    let url = `http://localhost:3000/shoe/all`
+    dispatch(fetchShoes(url));
   }, [dispatch]);
 
   if (loading) {
     return <Spinner />
   }
   if (error) {
+    console.log(error)
     return (
       <div className="bg-black h-screen w-screen flex justify-center items-center">
         <h1 className="text-white text-[40px]">Something went wrong!!!</h1>
