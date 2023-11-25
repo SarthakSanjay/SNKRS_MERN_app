@@ -2,7 +2,7 @@ import React from 'react'
 
 const Filter = () => {
   return (
-    <div className='bg-black h-[90vh] w-[300px] flex justify-center items-center'>
+    <div className='bg-black h-[90vh] w-1/4 flex justify-center items-center fixed text-white '>
         <ul>
             <li>Brand</li>
             <li>Rating</li>
