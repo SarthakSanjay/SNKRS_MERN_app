@@ -30,4 +30,30 @@ const search = async(req,res) =>{
 
 }
 
-module.exports = {search}
+const filter = async (req, res) => {
+  const { category, companyName, color, size } = req.query;
+console.log(req.query)
+  try {
+    let query = {};
+
+    if (color) {
+      query.color = { $regex: color, $options: 'i' };
+    }
+
+    if (companyName) {
+      query.companyName = { $regex: companyName, $options: 'i' };
+    }
+
+    // Add other filters like category, size, etc., following the same pattern
+
+    const filteredProducts = await SHOES.find(query);
+
+    res.json({ shoes: filteredProducts });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+
+module.exports = {search,filter}
