@@ -13,6 +13,7 @@ const login = require('./controllers/auth')
 const {search} = require('./controllers/search')
 
 const searchRouter = require('./routes/search')
+const filterRouter = require('./routes/filter')
 
 app.use(cors())
 app.use(express.json({limit:"20kb"})) //{limit:""} professional code
@@ -28,6 +29,7 @@ app.use('/register', userRouter)
 app.post('/login', login)
 
 app.use('/search',searchRouter)
+app.use('/filter',filterRouter)
 // app.get('/search2',search)
 
 const start = async () => {
