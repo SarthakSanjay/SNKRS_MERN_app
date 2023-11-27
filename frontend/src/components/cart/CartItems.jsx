@@ -9,7 +9,7 @@ const CartItems = ({ cartItem, id }) => {
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
   const {amount} = useSelector(store => store.cart)
-
+  const { productName, image ,price} = cartItem;
  
 
   const updateQuantity = (newQuantity) => {
@@ -54,7 +54,7 @@ const CartItems = ({ cartItem, id }) => {
     fetchQuantity();
   }, [id ,quantity ]); // Only fetch quantity when id changes
 
-  const { productName, image ,price} = cartItem;
+ 
 
   return (
     <div className="bg-gray-800 h-[100px] w-[500px] flex justify-between items-center m-5">
