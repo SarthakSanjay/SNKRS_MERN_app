@@ -31,7 +31,7 @@ const search = async(req,res) =>{
 }
 
 const filter = async (req, res) => {
-  const { category, companyName, color, size } = req.query;
+  const { category, companyName, color, minPrice , maxPrice ,rating} = req.query;
 console.log(req.query)
   try {
     let query = {};
@@ -44,6 +44,22 @@ console.log(req.query)
       query.companyName = { $regex: companyName, $options: 'i' };
     }
 
+    
+
+    if (minPrice && maxPrice) {
+      query.price = { $gte: Number(minPrice), $lte: Number(maxPrice) } ;
+    } else if (minPrice) {
+      query.price = { $gte: Number(minPrice) } ;
+    } else if (maxPrice) {
+      query.price = { $lte: Number(maxPrice) } ;
+    }
+
+    if(category){
+      query.category = category
+    }
+    if(rating){
+      query.rating ={$gte: Number(rating)}
+    }
     // Add other filters like category, size, etc., following the same pattern
 
     const filteredProducts = await SHOES.find(query);
