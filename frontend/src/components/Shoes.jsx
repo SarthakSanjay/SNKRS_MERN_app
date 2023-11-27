@@ -7,7 +7,7 @@ import Filter from "./Filter"
 const Shoes = () => {
   const dispatch = useDispatch();
   const { shoes, loading, error } = useSelector((state) => state.shoe);
-  const {deleteBtnClicked} = useSelector(store => store.wishlist)
+  // const {deleteBtnClicked} = useSelector(store => store.wishlist)
   // console.log(shoes)
   useEffect(() => {
     let url = `http://localhost:3000/shoe/all`
@@ -37,14 +37,14 @@ const Shoes = () => {
         src="https://img.freepik.com/free-vector/modern-black-friday-sale-banner-template-with-3d-background-red-splash_1361-1877.jpg?w=1060&t=st=1696705876~exp=1696706476~hmac=d8bade4b3fdb88be9a895225cedd4f4c126b081199f549f510bb9668b4ff352c"
         className="h-[60vh] w-[90%]  "
       /> */}
-      {shoes.map((shoe) => {
+      {shoes.length > 0 ? shoes.map((shoe) => {
         {/* console.log("mofo",shoe); */}
         return (
           <div key={shoe._id}>
             <ShoeCard shoe={shoe} id={shoe._id} wishlisted={shoe.wishlisted} />
           </div>
         );
-      })}
+      }):<h1 className="text-white">No shoes matched</h1>}
     </div>
       </div>
   );
