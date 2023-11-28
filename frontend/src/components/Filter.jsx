@@ -5,7 +5,7 @@ import { fetchShoes } from "../store/shoeSlice"
 const Filter = () => {
   const [color, setColor] = useState('');
   const [company, setCompany] = useState('');
-  const [category, setCategory] = useState('')
+  // const [category, setCategory] = useState('')
   const [price, setPrice] = useState('')
   const [rating, setRating] = useState(4.5)
   
@@ -59,9 +59,9 @@ const Filter = () => {
       queryParams.push(`companyName=${company}`);
     }
 
-    if(category){
-      queryParams.push(`category=${category}`)
-    }
+    // if(category){
+    //   queryParams.push(`category=${category}`)
+    // }
     if(rating){
       queryParams.push(`rating=${rating}`)
     }
@@ -80,26 +80,28 @@ const Filter = () => {
     console.log(finalUrl);
   };
   return (
-<form onSubmit={handleSubmit}>
-<div className='bg-black h-[93vh] w-1/4 flex flex-col justify-center items-center fixed text-white text-2xl text-left'>
+<form onSubmit={handleSubmit} >
+<div className='bg-black h-[93vh] pl-10 w-1/4 flex flex-col justify-center items-start fixed text-white text-2xl text-left'>
       <div>
         <label htmlFor="color">Color : </label>
-        <select value={color} onChange={handleColorChange} className='bg-black text-white border-2 w-20 outline-none'>
+        <select value={color} onChange={handleColorChange} className='bg-purple-900 text-white rounded-[2px] w-20 outline-none'>
           <option value="">All</option>
           <option value="white" >white</option>
           <option value="black" >black</option>
           <option value="red" >red</option>
         </select>
       </div>
+      
       <div>
         <label htmlFor="company">Company : </label>
-        <select value={company} onChange={handleCompanyChange} className='bg-black text-white border-2 w-20 outline-none'>
+        <select value={company} onChange={handleCompanyChange} className='bg-purple-900 text-white rounded-[2px] w-20 outline-none'>
           <option value="">All</option>
           {companyArray.map(item => {
             return <option key={item} value={item}>{item}</option>;
           })}
         </select>
       </div>
+      <br />
       <div className='flex flex-col'>
         <h3>Price: </h3>
         <div>
@@ -119,6 +121,7 @@ const Filter = () => {
         </div>
         
       </div>
+      <br />
       <div>
         <h3>Rating:</h3>
         <div>
@@ -133,7 +136,9 @@ const Filter = () => {
           <input type='radio' name='rating' id='2' value='2' onChange={handleRatingChnage} />
           <label>⭐️⭐️ $ above</label>
         </div>
+
       </div>
+      <br />
       <button type="submit" className='bg-blue-400 text-white p-2 rounded-xl hover:bg-blue-600 '>Apply Filters</button>
       </div>
     </form>
