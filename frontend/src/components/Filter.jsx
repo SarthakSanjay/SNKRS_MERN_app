@@ -19,7 +19,7 @@ const Filter = () => {
   const handlePriceChange = (e) =>{
     setPrice(e.target.value)
   }
-  const handleRatingChnage = (e) =>{
+  const handleRatingChange = (e) =>{
     setRating(e.target.value)
   }
   const dispatch = useDispatch()
@@ -125,15 +125,15 @@ const Filter = () => {
       <div>
         <h3>Rating:</h3>
         <div>
-          <input type='radio' name='rating' id='4' value='4' onChange={handleRatingChnage} />
+          <input type='radio' name='rating' id='4' value='4' onChange={handleRatingChange} />
           <label>⭐️⭐️⭐️⭐️ & above</label>
         </div>
         <div>
-          <input type='radio' name='rating' id='3' value='3' onChange={handleRatingChnage} />
+          <input type='radio' name='rating' id='3' value='3' onChange={handleRatingChange} />
           <label>⭐️⭐️⭐️ $ above</label>
         </div>
         <div>
-          <input type='radio' name='rating' id='2' value='2' onChange={handleRatingChnage} />
+          <input type='radio' name='rating' id='2' value='2' onChange={handleRatingChange} />
           <label>⭐️⭐️ $ above</label>
         </div>
 
