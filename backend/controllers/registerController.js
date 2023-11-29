@@ -5,8 +5,11 @@ const registerUser = async(req, res) =>{
            email: req.body.email,
            password: req.body.password
        }) 
-
-     res.status(200).json({msg:'new user created',user:user})
+    const createdUser = await USER.findById(user._id)
+    if(!createdUser){
+        return res.status(500).json({msg:"something went wrong"})
+    }
+     res.status(200).json({msg:'new user created',user:createdUser})
    
 }
 
