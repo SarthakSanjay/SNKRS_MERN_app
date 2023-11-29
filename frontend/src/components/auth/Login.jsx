@@ -35,7 +35,7 @@ const defaultTheme = createTheme();
 export default function Login() {
 
 const [logged , setLogged] = React.useState(false)
-const [password , setPassword] = React.useState(true)
+const [password , setPassword] = React.useState(true) //check in frontend
 const navigate = useNavigate()
 
 
@@ -55,6 +55,7 @@ React.useEffect(()=>{
       password: data.get('password'),
     })
     .then(res =>{
+      console.log(res.data.success)
       setLogged(res.data.success)
       setPassword(res.data.password)
     })
@@ -66,15 +67,17 @@ React.useEffect(()=>{
   };
 
   return (
-    <ThemeProvider theme={defaultTheme} >
-      <Container component="main" maxWidth="xs">
+    <ThemeProvider theme={defaultTheme}  >
+      <Container component="main" maxWidth="xs" >
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 0,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+
+            
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
