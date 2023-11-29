@@ -7,6 +7,7 @@ const login = async (req, res) => {
 //   console.log("user password", user.password)
   if (user) {
     if (user.password === password) {
+      
       return res
         .status(200)
         .json({ msg: "logged in successfully", success: true });
