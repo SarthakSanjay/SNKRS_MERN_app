@@ -9,9 +9,7 @@ const shoeRouter = require('./routes/shoe')
 const categoryRouter = require('./routes/category')
 const cartRouter = require('./routes/cart')
 const userRouter = require('./routes/user')
-const login = require('./controllers/auth')
-const {search} = require('./controllers/search')
-
+const loginRouter = require('./routes/login')
 const searchRouter = require('./routes/search')
 const filterRouter = require('./routes/filter')
 
@@ -25,12 +23,10 @@ app.use('/shoe',shoeRouter)
 app.use('/category', categoryRouter)
 app.use('/cart' , cartRouter)
 app.use('/register', userRouter)
-
-app.post('/login', login)
-
+app.use('/login', loginRouter)
 app.use('/search',searchRouter)
 app.use('/filter',filterRouter)
-// app.get('/search2',search)
+
 
 const start = async () => {
     //always use trycatch for database connection
