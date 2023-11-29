@@ -10,7 +10,7 @@ const Shoes = () => {
   // const {deleteBtnClicked} = useSelector(store => store.wishlist)
   // console.log(shoes)
   useEffect(() => {
-    console.log('effect called');
+    // console.log('effect called');
     let url = `http://localhost:3000/shoe/all`
     dispatch(fetchShoes(url));
   }, [dispatch]);
