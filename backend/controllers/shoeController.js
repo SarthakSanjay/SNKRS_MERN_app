@@ -1,5 +1,5 @@
 const SHOES = require('../models/shoe')
-
+// const shoes = require('../product')
 const getSpecificShoe = async(req, res) =>{
     const shoeId = req.params.id;
     const shoe =await SHOES.findById(shoeId);
@@ -41,7 +41,12 @@ const addShoe = async(req,res)=>{
         companyName,
         rating,
         image
- } = req.body
+    } = req.body
+    // let shoe;
+    // for(let i = 0; i< 20 ;i++){
+    //  shoe = await SHOES.create(shoes[i])
+    //  console.log(shoe)
+    // }
     const shoe = await SHOES.create({
         
             "productName": productName,
@@ -59,6 +64,7 @@ const addShoe = async(req,res)=>{
     })
 }
 
+    
 const updateShoeClicked = async (req, res) =>{
     const shoe = await SHOES.updateOne({ _id: req.params.id }, { wishlisted: req.body.wishlisted });
     if(!shoe) {
