@@ -45,7 +45,7 @@ const ShoeCard = ({ shoe, id, wishlisted, inWishlist }) => {
             className="w-full object-cover h-40"
           />
           <h3 className="ml-2 p-1">{productName}</h3>
-          <h3 className="ml-2 p-1">Price: ${price}</h3>
+          <h3 className="ml-2 p-1">Price: <span className="text-green-500">${price}</span></h3>
         </Link>
         <div className=" relative left-40 bottom-12  ">
           {inWishlist ? (
