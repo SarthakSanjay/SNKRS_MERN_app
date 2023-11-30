@@ -69,12 +69,13 @@ const productName = [
     productList.push(shoeObj);
   }
   
-  console.log(productList);
+  // console.log(productList);
   
 
 
-  console.log(image.length)
+  // console.log(image.length)
 
   let newList = productList
+  // console.log(newList.length)
 
   module.exports = newList
