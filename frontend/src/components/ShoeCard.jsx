@@ -4,7 +4,11 @@ import axios from "axios";
 import { fetchWishlist } from "../store/wishlistSlice";
 import { useDispatch } from "react-redux";
 import {AiOutlineDelete} from 'react-icons/ai'
-const ShoeCard = ({ shoe, id, wishlisted, inWishlist }) => {
+const ShoeCard = ({ shoe, id, wishlisted, inWishlist , color }) => {
+  
+  let colors = color.split('/')
+  
+
   const dispatch = useDispatch()
   if (!shoe) {
     return null;
@@ -44,8 +48,24 @@ const ShoeCard = ({ shoe, id, wishlisted, inWishlist }) => {
             src={image[0]}
             className="w-full object-cover h-40"
           />
+          
+
           <h3 className="ml-2 p-1">{productName}</h3>
+          <div className="flex">
           <h3 className="ml-2 p-1">Price: <span className="text-green-500">${price}</span></h3>
+          <div className="h-12 w-12 flex">
+          <div className={`w-6 h-6 border-[1px] border-white mr-2 rounded-full`} 
+          style={{backgroundColor: colors[0].toLowerCase()}}></div>
+
+          <p className={`w-6 h-6 border-[1px] border-white rounded-full`} 
+          style={{backgroundColor:colors[1] ? colors[1].toLowerCase():'white'}}></p>
+          
+        </div>
+          </div>
+       
+
+      
+        
         </Link>
         <div className=" relative left-40 bottom-12  ">
           {inWishlist ? (
