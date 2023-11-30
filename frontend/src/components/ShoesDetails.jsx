@@ -9,6 +9,8 @@ const ShoesDetails = () => {
   const [product, setProduct] = useState({});
   const [image, setImage] = useState(null);
   const [wishlisted , setWishlisted] = useState(false)
+  const [colors , setColor] = useState('')
+  let colorArr = colors.split('/')
 
   // console.log(image)
   const handleClick = (e) => {
@@ -30,6 +32,7 @@ const ShoesDetails = () => {
         setProduct(response.shoe);
         setImage(response.shoe.image[0]);
         setWishlisted(response.shoe.wishlisted)
+        setColor(response.shoe.color)
 
         // console.log(response.shoe)
       })
@@ -61,7 +64,7 @@ const ShoesDetails = () => {
             </>
           )}
         </div>
-        <img src={image} />
+        <img src={image} className="h-[500px] w-[500px] bg-center object-contain" />
       </div>
 
       <div className=" w-1/2 p-4 text-white">
@@ -72,6 +75,15 @@ const ShoesDetails = () => {
         <h1>MRP: ${product.price}</h1>
         <br />
         <h2>Rating: {product.rating} </h2>
+        <br />
+        <div className="h-12 w-12 flex">
+          <div className={`w-6 h-6 border-[1px] border-white mr-2 rounded-full`} 
+          style={{backgroundColor: colorArr[0].toLowerCase()}}></div>
+
+          <p className={`w-6 h-6 border-[1px] border-white rounded-full`} 
+          style={{backgroundColor:colorArr[1] ? colorArr[1].toLowerCase():'white'}}></p>
+          
+        </div>
         <br />
         <WishlistBtn text={true}  id={id} wishlisted={wishlisted} />
         <br />
