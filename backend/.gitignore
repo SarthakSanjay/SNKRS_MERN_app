@@ -1,3 +1,4 @@
 node_modules
 .env
 product.js
+.DS_Store
