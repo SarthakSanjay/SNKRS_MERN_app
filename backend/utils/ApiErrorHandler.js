@@ -19,3 +19,4 @@ class ApiErrorHandler{
         }
     }
 }
+export {ApiErrorHandler}
