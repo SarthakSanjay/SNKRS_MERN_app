@@ -40,7 +40,9 @@ const ShoesDetails = () => {
   }, [id]);
 
 
-  return (
+  return (<>
+    {image ? 
+ 
     <div className="h-screen w-screen bg-slate-900 p-10 flex ">
       <div className="h-3/4 w-1/2 flex p-4 justify-evenly">
         <div className="h-full w-1/6 p-2 ">
@@ -90,6 +92,8 @@ const ShoesDetails = () => {
         <AddToCartBtn addToCart={addToCart} />
       </div>
     </div>
+  : <div>Loading...</div>}
+    </>
   );
 };
 
