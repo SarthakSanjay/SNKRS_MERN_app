@@ -13,7 +13,7 @@ const initialState = {
 const fetchCart = createAsyncThunk('cartSlice/fetchCart', async () => {
   try {
     const response = await axios.get('http://localhost:3000/cart');
-    // console.log(response.data.shoe)
+    console.log("cartdata",response.data.shoe)
     return response.data.shoe; // Return the 'shoe' data from the response
   } catch (error) {
     throw new Error('Error fetching wishlist: ' + error.message);
@@ -30,6 +30,12 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
+    incrementTotal: (state , action) => {
+       state.totalAmount +=action.payload
+    },
+    decrementTotal: (state , action) => (
+      state.totalAmount -=action.payload
+    ),
   },
   extraReducers: (builder) => {
     builder
@@ -54,5 +60,5 @@ const cartSlice = createSlice({
 });
 
 export { fetchCart };
-export const { increase , decrease} = cartSlice.actions
+export const { incrementTotal , decrementTotal} = cartSlice.actions
 export default cartSlice.reducer;
