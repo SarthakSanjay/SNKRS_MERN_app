@@ -15,9 +15,12 @@ const WishListIcon = () => {
     <Link to="/wishlist">
       <div className="  h-14 w-14 flex justify-center items-center ">
         <LiaHeart className="text-3xl text-white absolute " />
-        <div className="text-white relative bottom-3 left-3  rounded-full bg-pink-500 w-5 h-5 flex justify-center items-center ">
+        {total?
+          <div className="text-white relative bottom-3 left-3  rounded-full bg-pink-500 w-5 h-5 flex justify-center items-center ">
           {total}
         </div>
+         : ""}
+        
       </div>
     </Link>
   );
