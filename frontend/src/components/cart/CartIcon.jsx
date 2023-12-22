@@ -13,7 +13,10 @@ const CartIcon = () => {
     <Link to='/cart'>
     <div className=" h-14 w-14 flex justify-center items-center ">
         <LiaShoppingBagSolid className="text-3xl text-white absolute " />
-        <h1 className="text-white relative bottom-3 left-3  rounded-full bg-green-500 w-5 h-5 flex justify-center items-center " >{totalItems}</h1>
+        {totalItems > 0 ? 
+          <h1 className="text-white relative bottom-3 left-3  rounded-full bg-green-500 w-5 h-5 flex justify-center items-center " >{totalItems}</h1>
+        : ''}
+        
     </div>
     </Link>
   )
