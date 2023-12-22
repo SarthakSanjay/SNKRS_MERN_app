@@ -2,46 +2,38 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineArrowUp, AiOutlineArrowDown } from "react-icons/ai";
 import axios from "axios";
 import { fetchCart } from "../../store/cartSlice";
-import { useDispatch, useSelector } from "react-redux";
-// import { increase, decrease } from "../../store/cartSlice";
+import { useDispatch } from "react-redux";
 
 const CartItems = ({ cartItem, id }) => {
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
-  const {amount} = useSelector(store => store.cart)
-  const { productName, image ,price} = cartItem;
- 
-
+  const { productName, image ,price } = cartItem;
   const updateQuantity = (newQuantity) => {
     axios.patch(`http://localhost:3000/cart/${id}`, { quantity: newQuantity });
   };
 
   const handleIncrease = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
-    updateQuantity(quantity + 1);
+    updateQuantity(quantity + 1)
     dispatch(fetchCart())
-    console.log("clicked up")
   };
   
   const handleDecrease = () => {
+    
     if (quantity > 0) {
-      setQuantity((prevQuantity) => prevQuantity - 1);
-      updateQuantity(quantity - 1);
+      updateQuantity(quantity - 1)
     }
-    if(quantity === 0){
-      handleDelete()
-      dispatch(fetchCart())
-    } 
     dispatch(fetchCart())
-    console.log("clicked down")
   };
-
+  
   const handleDelete = () => {
     axios.delete(`http://localhost:3000/cart/${id}`).then(() => {
-      console.log("Item deleted");
+
     });
     dispatch(fetchCart())
   };
+  // if(quantity == 0){
+  //   handleDelete()
+  // }
 
   
   
@@ -52,7 +44,8 @@ const CartItems = ({ cartItem, id }) => {
       });
     };
     fetchQuantity();
-  }, [id ,quantity ]); // Only fetch quantity when id changes
+
+  }, [id , ]); 
 
  
 
@@ -71,7 +64,8 @@ const CartItems = ({ cartItem, id }) => {
           Qty : {quantity}
           <button
             onClick={handleDecrease}
-            className="bg-gray-500 border-[1px] border-black rounded-[2px]"
+            className="bg-gray-500 border-[1px] border-black rounded-[2px] disabled:opacity-60 "
+            disabled={quantity == 1 ? true : false}
           >
             <AiOutlineArrowDown />
           </button>
