@@ -51,9 +51,15 @@ const getCartItems = async(req,res)=>{
                 msg:"id not found "
         })
     }
+    const calculateTotalAmount = (shoe) =>{
+        return shoe.reduce((totalPrice, item)=>{
+          return totalPrice +( item.shoeId.price * item.quantity)
+        },0)
+      }
     res.status(200).json({
         shoe: shoe,
-        total: shoe.length
+        total: shoe.length,
+        totalAmount : calculateTotalAmount(shoe)
     })
 }
 const updateCartQuantity =async (req,res) =>{
@@ -63,6 +69,7 @@ const updateCartQuantity =async (req,res) =>{
     }
     res.status(200).json({msg:"successfully updated",shoe:shoe})
 }
+
 const getSpecificCartItem = async (req, res) =>{
     const shoe = await CART.findById(req.params.id)
     if(!shoe){
@@ -70,4 +77,4 @@ const getSpecificCartItem = async (req, res) =>{
     }
     res.status(200).json({msg:"success",shoe:shoe})
 }
-module.exports = {addToCart , deleteAllCartItems , deleteCartItem , getCartItems , updateCartQuantity ,getSpecificCartItem} 
+module.exports = {addToCart , deleteAllCartItems , deleteCartItem , getCartItems , updateCartQuantity ,getSpecificCartItem } 
