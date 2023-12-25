@@ -12,7 +12,7 @@ const userRouter = require('./routes/user')
 const loginRouter = require('./routes/login')
 const searchRouter = require('./routes/search')
 const filterRouter = require('./routes/filter')
-
+const SHOES = require('./models/shoe')
 app.use(cors())
 app.use(express.json({limit:"20kb"})) //{limit:""} professional code
 app.use(express.urlencoded({extended:true , limit: "16kb"})) // how url is encoded eg. sharko+king or sharko%20king
@@ -27,7 +27,10 @@ app.use('/login', loginRouter)
 app.use('/search',searchRouter)
 app.use('/filter',filterRouter)
 
-
+app.patch('/setWishlist', async(req,res)=>{
+    let shoe = await SHOES.updateMany({$set:{wishlisted:false}})
+    res.status(200).json({msg:'done',shoe:shoe})
+})
 const start = async () => {
     //always use trycatch for database connection
     try {
