@@ -10,6 +10,10 @@ const Search = () => {
     setSearch(e.target.value)
   }
   const handleSubmit = async() =>{
+    if(search === ''){
+      alert('cant be empty')
+     return
+     }
     let url = `http://localhost:3000/search?search=${search}`
     dispatch(fetchShoes(url))
 
