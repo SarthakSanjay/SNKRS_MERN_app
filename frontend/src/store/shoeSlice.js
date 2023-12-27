@@ -9,7 +9,10 @@ const initialState = {
   const fetchShoes = createAsyncThunk('shoeSlice/fetchShoes', async (url) => {
     try {
       const response = await axios.get(url);
-      return response.data.shoes;
+      if(response.data.shoes){
+        return response.data.shoes
+      }
+      return response.data.shoe;
     } catch (error) {
       throw new Error('Error fetching shoes: ' + error.message);
     }
