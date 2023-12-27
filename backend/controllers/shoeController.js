@@ -84,4 +84,4 @@ const updateShoe = async(req,res) =>{
         })
     
 }
-module.exports = { addShoe , getAllShoes , getSpecificShoe , updateShoeClicked , updateShoe}
+module.exports = { addShoe , getAllShoes , getSpecificShoe  , updateShoe}
