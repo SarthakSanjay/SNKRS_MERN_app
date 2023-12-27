@@ -64,17 +64,9 @@ const addShoe = async(req,res)=>{
     })
 }
 
-    
-const updateShoeClicked = async (req, res) =>{
-    const shoe = await SHOES.updateOne({ _id: req.params.id }, { wishlisted: req.body.wishlisted });
-    if(!shoe) {
-        return res.status(404).json({msg:"item not found"})
-    }
-    res.status(200).json({msg:"successfully updated",shoe:shoe})
-}
-
 const updateShoe = async(req,res) =>{
     let shoe = await SHOES.findById(req.params.id)
+    console.log(shoe)
     if(!shoe){
         return res.status(500).json({
             success:'false',
