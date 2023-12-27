@@ -1,38 +1,37 @@
 const WISHLIST = require('../models/wishlist')
+const SHOES = require('../models/shoe')
 
-const addWishlist = async(req,res)=>{
-    const shoeId = req.body._id
-    const existingShoe = await WISHLIST.findOne({shoeId})
+const addWishlist = async (req, res) => {
+    const existingShoe = await WISHLIST.findById(req.params.id)
     if(existingShoe){
         return res.status(409).json({
             msg:"already exists"
         })
     }
     const shoe = await WISHLIST.create({
-        shoeId : shoeId
+        shoeId : req.params.id
     })
-    if(!shoeId){
-        return res.status(404).json({
-                msg:"id not found "
-        })
-    }
+    const inWishlist = await SHOES.updateOne({ _id: req.params.id }, { wishlisted: true });
     res.status(200).json({
-        id: shoe
+        id: shoe,
+        inWishlist:inWishlist
     })
-}
+};
 
 const deleteWishlist = async(req,res)=>{
-    const shoeId = req.params.id
-    const shoe = await WISHLIST.deleteOne({
-        _id : shoeId
-    })
-    if(!shoeId){
-        return res.status(404).json({
-                msg:"id not found "
+    const existingShoe = await WISHLIST.findById(req.params.id)
+    if(existingShoe){
+        return res.status(409).json({
+            msg:"already exists"
         })
     }
+    const inWishlist = await SHOES.updateOne({ _id: req.params.id }, { wishlisted: false });
+    const shoe = await WISHLIST.deleteOne({
+        shoeId : req.params.id
+    })
     res.status(200).json({
-        id: shoe
+        id: shoe,
+        inWishlist:inWishlist
     })
 }
 
