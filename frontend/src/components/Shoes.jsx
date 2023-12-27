@@ -42,7 +42,10 @@ const Shoes = () => {
         {/* console.log("mofo",shoe); */}
         return (
           <div key={shoe._id}>
-            <ShoeCard shoe={shoe} id={shoe._id} wishlisted={shoe.wishlisted} color={shoe.color} />
+            <ShoeCard shoe={shoe} 
+            // id={shoe._id} wishlisted={shoe.wishlisted} color={shoe.color} 
+
+            />
           </div>
         );
       }):<h1 className="text-white">No shoes matched</h1>}
