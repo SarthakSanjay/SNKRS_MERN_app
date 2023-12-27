@@ -73,7 +73,7 @@ const Wishlist = () => {
               <ShoeCard
                 key={wishlistItem._id}
                 shoe={wishlistItem.shoeId}
-                id={wishlistItem._id}
+                wid={wishlistItem._id}
                 inWishlist={true}
               />
             );
