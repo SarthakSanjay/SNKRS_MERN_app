@@ -4,44 +4,36 @@ import { fetchWishlist } from "../../store/wishlistSlice";
 import { fetchShoes } from "../../store/shoeSlice";
 import { useDispatch } from "react-redux";
 import axios from "axios";
+//on button click 1. add it to wishlist and change the wishlisted to true
+//on again button click remove it from wishlist and change the wishlisted to false
 
-const WishlistBtn = ({  text , id ,wishlisted  }) => {
+const WishlistBtn = ({  text , id ,wishlisted }) => {
   const dispatch = useDispatch()
-  const [clicked , setClicked] = useState(true)
+
   const addToWishlist = () =>{
-    axios.post(`http://localhost:3000/wishlist/add`,{
-      _id: id
+    axios.post(`http://localhost:3000/wishlist/add/${id}`)
+    .then(()=>{
+      dispatch(fetchShoes(`http://localhost:3000/shoe/all`))
+    dispatch(fetchWishlist())
     })
-    .then(alert('added to wishlist'))
-    .then(dispatch(fetchShoes()))
   }
+  
   const deleteFromWishlist = () =>{
-    axios.delete(`http://localhost:3000/wishlist/remove/${id}`)
-    .then(alert('removed form wishlist'))
-  }
-
-  const updateWishlisted = (wishlisted) =>{
-    axios.patch(`http://localhost:3000/shoe/${id}`,{
-      wishlisted : wishlisted
+    console.log(id)
+    axios.post(`http://localhost:3000/wishlist/remove/${id}`)
+    .then(()=>{
+      dispatch(fetchShoes(`http://localhost:3000/shoe/all`))
+    dispatch(fetchWishlist())
     })
   }
-
 
   const handleClick = () => {
-    if (clicked) {
-      addToWishlist();
-      setClicked(false);
-      updateWishlisted(true)
-      dispatch(fetchShoes());
-      dispatch(fetchWishlist())
-    } else {
-      deleteFromWishlist();
-      setClicked(true);
-      updateWishlisted(false)
-      dispatch(fetchShoes());
-      dispatch(fetchWishlist())
-    }
+  if(wishlisted){
+    deleteFromWishlist()
+  }else{
+    addToWishlist()
   }
+}
 
   if (!text) {
     return (
