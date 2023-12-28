@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import ShoeCard from "../ShoeCard";
+import ShoeCard from "../shoes/ShoeCard";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchWishlist } from "../../store/wishlistSlice";
 import { deleteAll } from "../../store/wishlistSlice";
 import axios from "axios";
-import Spinner from "../Spinner";
+import Spinner from "../Misc/Spinner";
 
 const Wishlist = () => {
   const dispatch = useDispatch();

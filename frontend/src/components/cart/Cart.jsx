@@ -3,8 +3,8 @@ import axios from "axios";
 import CartItems from "./CartItems";
 import { fetchCart } from "../../store/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
-import Notification from "../Notification";
-import Spinner from "../Spinner";
+import Notification from "../Misc/Notification";
+import Spinner from "../Misc/Spinner";
 const Cart = () => {
   const [totalAmount , setTotalAmount] = useState(0)
   const dispatch = useDispatch();

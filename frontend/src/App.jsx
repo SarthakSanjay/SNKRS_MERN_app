@@ -1,7 +1,7 @@
 
 import './App.css'
-import Nav from './components/Nav'
-import Notification from './components/Notification'
+import Nav from './components/navItems/Nav'
+import Notification from './components/Misc/Notification'
 import {Outlet } from 'react-router-dom'
 
 function App() {
