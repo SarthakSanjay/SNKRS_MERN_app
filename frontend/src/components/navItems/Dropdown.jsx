@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import NavLinks from "./NavLinks";
 import { Link } from "react-router-dom";
-import Search from "../Search";
+import Search from "./Search";
 const Dropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
 
