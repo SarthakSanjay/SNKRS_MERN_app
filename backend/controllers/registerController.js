@@ -1,6 +1,7 @@
 const USER = require('../models/user')
+const { asyncHandler } = require('../utils/AsyncHandler')
 
-const registerUser = async(req, res) =>{
+const registerUser = asyncHandler(async(req, res) =>{
     const user =   await USER.create({
            email: req.body.email,
            password: req.body.password
@@ -11,7 +12,7 @@ const registerUser = async(req, res) =>{
     }
      res.status(200).json({msg:'new user created',user:createdUser})
    
-}
+})
 
 const getUser = async( req , res) =>{
     const users = await USER.find({})
