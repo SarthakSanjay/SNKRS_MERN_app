@@ -1,16 +1,38 @@
 const USER = require('../models/user')
 const { asyncHandler } = require('../utils/AsyncHandler')
+const {ApiErrorHandler} = require('../utils/ApiErrorHandler')
+const {ApiResponse} = require('../utils/ApiResponseHandler')
 
 const registerUser = asyncHandler(async(req, res) =>{
-    const user =   await USER.create({
-           email: req.body.email,
-           password: req.body.password
-       }) 
-    const createdUser = await USER.findById(user._id)
-    if(!createdUser){
-        return res.status(500).json({msg:"something went wrong"})
+    const {email , password} = req.body
+    const existingUser = await USER.findOne({
+        $or:[{ email } , { password }]
+    })
+    if([email ,password].some((field)=>
+        field?.trim() === ""
+    )){
+        throw new ApiErrorHandler(400 , "All fields are required")
     }
-     res.status(200).json({msg:'new user created',user:createdUser})
+    // if(!email.includes('@')){
+    //     throw new ApiErrorHandler(400 , "Email is not correct")
+    // }
+    if(existingUser){
+        throw new ApiErrorHandler(409 , "User already exist")
+    }
+    const user =   await USER.create({
+           email: email,
+           password: password
+       }) 
+     const createdUser = await USER.findById(user._id).select(
+        "-password -refreshToken"
+     )
+     if(!createdUser){
+        throw new ApiErrorHandler(500 , "Something went wrong while regestring user")
+     }
+     res.status(201).json(
+        new ApiResponse(200, createdUser , "User Registerd Successfully")
+     )
+
    
 })
 
