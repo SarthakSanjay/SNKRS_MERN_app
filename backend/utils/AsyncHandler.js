@@ -16,4 +16,4 @@ const asyncHandler = (requestHandler) =>{
     }
 }
 
-export { asyncHandler}
+module.exports = {asyncHandler}

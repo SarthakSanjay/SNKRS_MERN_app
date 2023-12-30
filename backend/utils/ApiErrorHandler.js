@@ -5,7 +5,7 @@ class ApiErrorHandler{
          errors = [],
          stack = ""
          ){
-            super(message)
+            // super(message)
         this.status = status
         this.message = message
         this.data = null
@@ -19,4 +19,4 @@ class ApiErrorHandler{
         }
     }
 }
-export {ApiErrorHandler}
+module.exports = {ApiErrorHandler}
