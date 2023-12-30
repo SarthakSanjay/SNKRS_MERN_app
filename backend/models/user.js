@@ -20,13 +20,16 @@ const userSchema = new mongoose.Schema({
     wishlist:[{
         type:mongoose.Schema.Types.ObjectId,
         ref: 'WISHLIST'
-    }]
+    }],
+    refreshToken:{
+        type:String
+    }
 })
 // to encrypt the password
 //this is the pre middleware provided by the mongoose , it just do the task assigned to it before the actual task given to the schema
 userSchema.pre('save',async function(next){
     if(!this.isModified("password")) return next()
-    this.password = bcrypt.hash(this.password , 10)
+    this.password =await bcrypt.hash(this.password , 10)
     next()
    
 })
