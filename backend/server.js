@@ -13,10 +13,11 @@ const loginRouter = require('./routes/login')
 const searchRouter = require('./routes/search')
 const filterRouter = require('./routes/filter')
 const SHOES = require('./models/shoe')
+const cookieParser = require('cookie-parser')
 app.use(cors())
 app.use(express.json({limit:"20kb"})) //{limit:""} professional code
 app.use(express.urlencoded({extended:true , limit: "16kb"})) // how url is encoded eg. sharko+king or sharko%20king
-
+app.use(cookieParser())
 
 app.use('/wishlist', wishlistRouter)
 app.use('/shoe',shoeRouter)
