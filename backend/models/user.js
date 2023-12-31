@@ -24,6 +24,8 @@ const userSchema = new mongoose.Schema({
     refreshToken:{
         type:String
     }
+},{
+    timestamps:true
 })
 // to encrypt the password
 //this is the pre middleware provided by the mongoose , it just do the task assigned to it before the actual task given to the schema
