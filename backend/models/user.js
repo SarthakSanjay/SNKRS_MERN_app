@@ -1,3 +1,4 @@
+// require('dotenv').config()
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -44,21 +45,22 @@ userSchema.methods.generateAccessToken = function(){
     return jwt.sign({
         _id: this._id,
         email: this.email
-     }),
+     },
      process.env.ACCESS_TOKEN_SECRET,
      {
         expiresIn: process.env.ACCESS_TOKEN_EXPIRY
      }
-     
+    )
 }
 userSchema.methods.generateRefreshToken = async function(){
     return jwt.sign({
         _id: this._id,
         
-     }),
+     },
      process.env.REFRESH_TOKEN_SECRET,
      {
         expiresIn: process.env.REFRESH_TOKEN_EXPIRY
      }
+    )
 }
-module.exports = new mongoose.model('USER' , userSchema)
+module.exports =  mongoose.model('USER' , userSchema)
