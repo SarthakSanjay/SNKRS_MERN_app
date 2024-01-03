@@ -2,6 +2,7 @@ const USER = require("../models/user");
 const { ApiErrorHandler } = require("../utils/ApiErrorHandler");
 const { ApiResponse } = require("../utils/ApiResponseHandler");
 const { asyncHandler } = require("../utils/AsyncHandler");
+const jwt = require('jsonwebtoken')
 const generateAccessAndRefreshToken = async(userId) =>{
   try {
     const user = await USER.findById(userId)
@@ -42,9 +43,14 @@ const login = asyncHandler(async (req, res) => {
   .cookie("accessToken" , accessToken , options)
   .cookie("refreshToken", refreshToken , options )
   .json(
-    new ApiResponse(200,{
-      user: loggedInUser, accessToken , refreshToken ,
-    },"User LoggedIn Successfully")
+    new ApiResponse(
+      200, 
+      {
+          user: loggedInUser, accessToken, refreshToken
+      },
+      "User logged In Successfully"
+  )
+
   )
 });
 
@@ -71,5 +77,32 @@ const logout = asyncHandler(async(req,res)=>{
       new ApiResponse(200 , {}  ,"User Logged out")
     )
 })
-
+const refreshAccessToken = asyncHandler(async(req,res)=>{
+  const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
+  if(!incomingRefreshToken){
+    throw new ApiErrorHandler(401 , "Unauthorized request")
+  }
+  const decodedToken = jwt.verify(
+    incomingRefreshToken ,
+    process.env.REFRESH_TOKEN_SECRET
+  )
+  const user = await USER.findById(decodedToken?._id)
+  if(!user){
+    throw new ApiErrorHandler(401 , "Invalid request token")
+  }
+  if(incomingRefreshToken !== user?.refreshToken){
+    throw new ApiErrorHandler(401 , "Request token is expired or used")
+  }
+  const options ={
+    httpOnly :true , //by doing this it is only modifiable form server not the frontend 
+    secure : true
+  }
+  const {accessToken , newRefreshToken} = await generateAccessAndRefreshToken(user._id)
+  return res.status(200)
+  .cookie("accessToken" , accessToken ,options)
+  .cookie("refreshToken", newRefreshToken,options)
+  .json(
+    new ApiResponse(200 ,{accessToken , refreshToken: newRefreshToken} , "Access Token Refreshed" )
+  )
+})
 module.exports = {login , logout};
