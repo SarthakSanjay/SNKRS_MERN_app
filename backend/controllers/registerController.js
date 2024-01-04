@@ -43,6 +43,7 @@ const getUser = async( req , res) =>{
         msg: 'success',
         users: users
     })
+    // return res.status(200).json(200 , req.user , "Current user fetched successfully")
 }
 
 const deleteAllUser = async(req,res) =>{
