@@ -78,31 +78,51 @@ const logout = asyncHandler(async(req,res)=>{
     )
 })
 const refreshAccessToken = asyncHandler(async(req,res)=>{
-  const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
-  if(!incomingRefreshToken){
-    throw new ApiErrorHandler(401 , "Unauthorized request")
+  try {
+    const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
+    if(!incomingRefreshToken){
+      throw new ApiErrorHandler(401 , "Unauthorized request")
+    }
+    const decodedToken = jwt.verify(
+      incomingRefreshToken ,
+      process.env.REFRESH_TOKEN_SECRET
+    )
+    const user = await USER.findById(decodedToken?._id)
+    if(!user){
+      throw new ApiErrorHandler(401 , "Invalid request token")
+    }
+    if(incomingRefreshToken !== user?.refreshToken){
+      throw new ApiErrorHandler(401 , "Request token is expired or used")
+    }
+    const options ={
+      httpOnly :true , //by doing this it is only modifiable form server not the frontend 
+      secure : true
+    }
+    const {accessToken , newRefreshToken} = await generateAccessAndRefreshToken(user._id)
+    return res.status(200)
+    .cookie("accessToken" , accessToken ,options)
+    .cookie("refreshToken", newRefreshToken,options)
+    .json(
+      new ApiResponse(200 ,{accessToken , refreshToken: newRefreshToken} , "Access Token Refreshed" )
+    )
+  } catch (error) {
+    throw new ApiErrorHandler(401, error?.message || "Invalid refresh token")
   }
-  const decodedToken = jwt.verify(
-    incomingRefreshToken ,
-    process.env.REFRESH_TOKEN_SECRET
-  )
-  const user = await USER.findById(decodedToken?._id)
-  if(!user){
-    throw new ApiErrorHandler(401 , "Invalid request token")
+})
+
+const changeCurrentPassword = asyncHandler(async (req,res)=>{
+  const {oldPassword , newPassword} = req.body
+  const user = await USER.findById(req.user?._id)
+  const isPasswordCorrect = await user.isPassword(oldPassword)
+  if(!isPasswordCorrect){
+    throw new ApiErrorHandler(400 , "Invalid old password")
+
   }
-  if(incomingRefreshToken !== user?.refreshToken){
-    throw new ApiErrorHandler(401 , "Request token is expired or used")
-  }
-  const options ={
-    httpOnly :true , //by doing this it is only modifiable form server not the frontend 
-    secure : true
-  }
-  const {accessToken , newRefreshToken} = await generateAccessAndRefreshToken(user._id)
-  return res.status(200)
-  .cookie("accessToken" , accessToken ,options)
-  .cookie("refreshToken", newRefreshToken,options)
-  .json(
-    new ApiResponse(200 ,{accessToken , refreshToken: newRefreshToken} , "Access Token Refreshed" )
+  user.password = newPassword
+  await user.save({validateBeforeSave:false})
+  
+  return res.status(200).json(
+    new ApiResponse(200 , {} , "Password changed successfully")
   )
 })
-module.exports = {login , logout};
+module.exports = {login , logout , refreshAccessToken};
