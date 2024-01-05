@@ -8,7 +8,7 @@ import Profile from "./Profile";
 
 const Nav = () => {
   return (
-    <div className="flex justify-evenly bg-zinc-800 h-14 items-center w-screen sticky top-0 max-sm:justify-around p-2 z-10 ">
+    <div className="hidden sm:flex justify-evenly bg-zinc-800 h-14 items-center w-screen sticky top-0 max-sm:justify-around p-2 z-10 ">
       <Logo className="w-1/3 " />
       <div className="max-sm:hidden">
       <NavLinks />
@@ -20,9 +20,6 @@ const Nav = () => {
         <WishListIcon />
         <CartIcon />
         <Profile />
-        <div className="">
-          <Dropdown />
-        </div>
       </div>
     </div>
   );

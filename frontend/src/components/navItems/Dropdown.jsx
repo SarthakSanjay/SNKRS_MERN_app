@@ -11,10 +11,10 @@ const Dropdown = () => {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col ">
       <button
         onClick={toggleDropdown}
-        className=" h-14 w-14  justify-center items-center max-sm:flex lg:hidden"
+        className=" h-14 w-14 absolute top-0 right-0  justify-center items-center max-sm:flex md:hidden lg:hidden"
       >
         <RxHamburgerMenu className="text-3xl text-white" />
       </button>
