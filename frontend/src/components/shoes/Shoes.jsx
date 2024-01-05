@@ -4,13 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchShoes } from "../../store/shoeSlice";
 import Spinner from "../Misc/Spinner";
 import Filter from "../Filter/Filter"
+
 const Shoes = () => {
   const dispatch = useDispatch();
   const { shoes, loading, error } = useSelector((state) => state.shoe);
-  // const {deleteBtnClicked} = useSelector(store => store.wishlist)
-  // console.log(shoes)
+ 
   useEffect(() => {
-    // console.log('effect called');
     let url = `http://localhost:3000/shoe/all`
     dispatch(fetchShoes(url));
   }, [dispatch]);
