@@ -14,7 +14,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import Cookies from "js-cookie"
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -33,19 +33,8 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function Login() {
-
-const [logged , setLogged] = React.useState(false)
 const [password , setPassword] = React.useState(true) //check in frontend
 const navigate = useNavigate()
-
-
-
-React.useEffect(()=>{
-  if(logged){
-    navigate('/')
-  
-  }
-},[logged , password])
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -55,8 +44,13 @@ React.useEffect(()=>{
       password: data.get('password'),
     })
     .then(res =>{
-      console.log(res.data.success)
-      setLogged(res.data.success)
+      console.log(res)
+      const { accessToken, refreshToken } = res.data.data;
+      Cookies.set('accessToken', accessToken, { expires: 7, secure: true }); // Example options
+      Cookies.set('refreshToken', refreshToken, { expires: 7, secure: true });
+      if(res.data.success){
+        navigate('/')
+      }
       setPassword(res.data.password)
     })
     .catch(e => console.log(e.message))
