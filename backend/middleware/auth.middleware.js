@@ -1,10 +1,10 @@
 const { ApiErrorHandler } = require("../utils/ApiErrorHandler");
 const { asyncHandler } = require("../utils/AsyncHandler");
-const {jwt} = require("jsonwebtoken")
+const jwt = require("jsonwebtoken")
 const USER = require('../models/user')
 const verifyJWT = asyncHandler(async(req,res,next)=>{
     try {
-        const token = req.cookies?.accessToken || req.header("Authorization")?.("Bearer " ,"")
+        const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer " ,"")
         if(!token){
             throw new ApiErrorHandler(401 , "Unauthorized request")
         }
