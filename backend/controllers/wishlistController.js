@@ -1,38 +1,74 @@
 const WISHLIST = require('../models/wishlist')
-const SHOES = require('../models/shoe')
+const SHOES = require('../models/shoe');
+const { ApiErrorHandler } = require('../utils/ApiErrorHandler');
+const USER = require('../models/user')
 
-const addWishlist = async (req, res) => {
-    const existingShoe = await WISHLIST.findById(req.params.id)
-    if(existingShoe){
-        return res.status(409).json({
-            msg:"already exists"
-        })
-    }
-    const shoe = await WISHLIST.create({
-        shoeId : req.params.id
-    })
-    const inWishlist = await SHOES.updateOne({ _id: req.params.id }, { wishlisted: true });
-    res.status(200).json({
-        id: shoe,
-        inWishlist:inWishlist
-    })
+const getWishlist = async (req, res) => {
+  const userId= req.query.userId; // Assuming you are receiving the userId from the request params
+  console.log(typeof(userId))
+  try {
+    // Find the wishlist items for the specific user
+    const wishlistItems = await WISHLIST.findOne({ user: userId }).populate('shoeId');
+
+    // if (!wishlistItems) {
+    //   throw new ApiErrorHandler(404 ,'Wishlist not found for this user')
+    // }
+
+    res.status(200).json({ wishlistItems });
+  } catch (error) {
+    throw new ApiErrorHandler(500 ,`Error fetching wishlist items : ${error.message}`)
+  }
 };
 
-const deleteWishlist = async(req,res)=>{
-    const existingShoe = await WISHLIST.findById(req.params.id)
-    if(existingShoe){
-        return res.status(409).json({
-            msg:"already exists"
-        })
+const addWishlist = async (req, res) => {
+    const userId  = req.body.userId; // Assuming you receive userId and shoeId in the request body
+    const shoeId = req.params.id
+    try {
+      // Check if the user exists
+      const user = await USER.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found.' });
+      }
+  
+      // Create or find the user's wishlist
+      let wishlist = await WISHLIST.findOne({ user: userId });
+      if (!wishlist) {
+        wishlist = await WISHLIST.create({ user: userId, shoeId: [shoeId] });
+      } else {
+        // If wishlist exists, push the new shoeId to the existing wishlist
+        wishlist.shoeId.push(shoeId);
+        await wishlist.save();
+      }
+  
+      res.status(201).json({ message: 'Item added to wishlist successfully.', wishlist });
+    } catch (error) {
+      res.status(500).json({ message: 'Failed to add item to wishlist.', error: error.message });
     }
-    const inWishlist = await SHOES.updateOne({ _id: req.params.id }, { wishlisted: false });
-    const shoe = await WISHLIST.deleteOne({
-        shoeId : req.params.id
-    })
-    res.status(200).json({
-        id: shoe,
-        inWishlist:inWishlist
-    })
+  };
+
+const deleteWishlist = async(req,res)=>{
+  const userId  = req.body.userId; // Assuming you receive userId and shoeId in the request body
+  const shoeId = req.params.id
+  console.log('shoeId',shoeId)
+
+   try {
+     let wishlist = await WISHLIST.findOne({user:userId});
+     if (!wishlist) {
+       throw new ApiErrorHandler(404 , "wishlist not found")
+     }
+      wishlist.shoeId.pull(shoeId);
+      await wishlist.save();
+     console.log(wishlist)
+ 
+     res.status(200).json({
+       msg:'success',
+       wishlist
+ 
+     })
+   } catch (error) {
+    console.log(error.message)
+   }
+
 }
 
 const deleteAllWishlist = async(req,res) =>{
@@ -43,17 +79,28 @@ const deleteAllWishlist = async(req,res) =>{
     })
 } 
 
-const getWishlist = async(req,res)=>{
-    const shoe = await WISHLIST.find({}).populate('shoeId')
-    if(!shoe){
-        return res.status(404).json({
-                msg:"id not found "
-        })
-    }
-    res.status(200).json({
-        shoe: shoe,
-        total: shoe.length
-    })
+// const getWishlist = async(req,res)=>{
+//     // const userId = req.body.userId
+//     // const user = await USER.findById(userId)
+//     // if(!user){
+//     //     throw new ApiErrorHandler(401 , "user not found")
+//     // }
+    
+//     const shoe = await WISHLIST.find({}).populate('shoeId')
+//     if(!shoe){
+//         return res.status(404).json({
+//                 msg:"id not found "
+//         })
+//     }
+//     res.status(200).json({
+//         shoe: shoe,
+//         total: shoe.length
+//     })
+// }
+
+const getAllWishlist = async(req,res) =>{
+  const wishlist = await WISHLIST.find()
+  res.status(200).json({wishlist})
 }
 
-module.exports = {addWishlist , deleteWishlist , deleteAllWishlist , getWishlist}
+module.exports = {addWishlist , deleteWishlist , deleteAllWishlist , getWishlist , getAllWishlist}
