@@ -1,6 +1,6 @@
 import {createSlice , createAsyncThunk} from '@reduxjs/toolkit'
 import axios from 'axios'
-import Cookies from "js-cookie";
+import { getCookie } from '../utils/cookie';
 const initialState = {
     shoes: [],
     loading : false ,
@@ -9,10 +9,9 @@ const initialState = {
 
   const fetchShoes = createAsyncThunk('shoeSlice/fetchShoes', async (url) => {
     try {
-      let token = Cookies.get("accessToken")
       const response = await axios.get(url,{
         headers:{
-          "Authorization": `Bearer ${token}`
+          "Authorization": `Bearer ${getCookie("accessToken")}`
         }
       }).catch(err => console.log(err.message))
       if(response.data.shoes){
