@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import { getCookie } from '../utils/cookie';
 
 const initialState = {
   shoe: [],
@@ -11,9 +13,9 @@ const initialState = {
 
 const fetchWishlist = createAsyncThunk('wishlistSlice/fetchWishlist', async () => {
   try {
-    const response = await axios.get('http://localhost:3000/wishlist');
-    // console.log(response.data.shoe)
-    return response.data.shoe; // Return the 'shoe' data from the response
+    const response = await axios.get(`http://localhost:3000/wishlist?userId=${getCookie('userId')}`);
+    // console.log("shoe ids",response.data.wishlistItems.shoeId)
+    return response.data.wishlistItems.shoeId; // Return the 'shoe' data from the response
   } catch (error) {
     throw new Error('Error fetching wishlist: ' + error.message);
   }
