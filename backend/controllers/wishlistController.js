@@ -4,17 +4,17 @@ const { ApiErrorHandler } = require('../utils/ApiErrorHandler');
 const USER = require('../models/user')
 
 const getWishlist = async (req, res) => {
-  const userId= req.query.userId; // Assuming you are receiving the userId from the request params
+  const userId= req.query.userId; 
   console.log(typeof(userId))
   try {
-    // Find the wishlist items for the specific user
     const wishlistItems = await WISHLIST.findOne({ user: userId }).populate('shoeId');
 
-    // if (!wishlistItems) {
-    //   throw new ApiErrorHandler(404 ,'Wishlist not found for this user')
-    // }
-
+    if (!wishlistItems) {
+      return res.status(200).json({wishlistItems:[]})
+      
+    }
     res.status(200).json({ wishlistItems });
+
   } catch (error) {
     throw new ApiErrorHandler(500 ,`Error fetching wishlist items : ${error.message}`)
   }
@@ -35,8 +35,14 @@ const addWishlist = async (req, res) => {
       if (!wishlist) {
         wishlist = await WISHLIST.create({ user: userId, shoeId: [shoeId] });
       } else {
+        if(wishlist.shoeId.includes(shoeId)){
+
+          wishlist.shoeId.pull(shoeId);
+        }else{
+
+          wishlist.shoeId.push(shoeId);
+        }
         // If wishlist exists, push the new shoeId to the existing wishlist
-        wishlist.shoeId.push(shoeId);
         await wishlist.save();
       }
   
