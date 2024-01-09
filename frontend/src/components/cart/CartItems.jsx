@@ -3,26 +3,39 @@ import { AiOutlineArrowUp, AiOutlineArrowDown } from "react-icons/ai";
 import axios from "axios";
 import { fetchCart } from "../../store/cartSlice";
 import { useDispatch } from "react-redux";
+import { getCookie } from "../../utils/cookie";
 
 const CartItems = ({ cartItem, id }) => {
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
-  const { productName, image ,price } = cartItem;
-  const updateQuantity = (newQuantity) => {
-    axios.patch(`http://localhost:3000/cart/${id}`, { quantity: newQuantity });
-  };
-
+  const { productName, image ,price , _id } = cartItem;
+  const fetchQuantity = async() =>{
+    try {
+      const res = await axios.get(`http://localhost:3000/cart/quantity?userId=${getCookie('userId')}`)
+      setQuantity(res.data.shoeObject[_id])
+      
+    } catch (error) {
+      console.log(error.message)
+      
+    }
+  }
+ 
   const handleIncrease = () => {
-    updateQuantity(quantity + 1)
-    dispatch(fetchCart())
+    axios.post(`http://localhost:3000/cart/add?shoeId=${_id}&userId=${getCookie('userId')}`)
+    .then(() =>{
+      fetchQuantity()
+      // dispatch(fetchCart())
+    })
   };
   
   const handleDecrease = () => {
     
-    if (quantity > 0) {
-      updateQuantity(quantity - 1)
-    }
-    dispatch(fetchCart())
+    axios.delete(`http://localhost:3000/cart/delete?shoeId=${_id}&userId=${getCookie('userId')}`)
+    .then(() =>{
+      fetchQuantity()
+      // dispatch(fetchCart())
+    })
+
   };
   
   const handleDelete = () => {
@@ -31,21 +44,10 @@ const CartItems = ({ cartItem, id }) => {
     });
     dispatch(fetchCart())
   };
-  // if(quantity == 0){
-  //   handleDelete()
-  // }
 
-  
-  
   useEffect(() => {
-    const fetchQuantity = () => {
-      axios.get(`http://localhost:3000/cart/${id}`).then((res) => {
-        setQuantity(res.data.shoe.quantity);
-      });
-    };
-    fetchQuantity();
-
-  }, [id , ]); 
+    fetchQuantity()
+  }, []); 
 
  
 
@@ -53,7 +55,7 @@ const CartItems = ({ cartItem, id }) => {
     <div className="bg-gray-800 h-[100px] w-[500px] flex justify-between items-center m-5">
       <img src={image[0]} className="h-full w-1/5 object-center" />
       <div className="flex flex-col justify-around h-full">
-        <h2>{productName}</h2>
+        <h2 className="w-[120px] ">{productName}</h2>
         <div className="bg-red-400 w-[120px] rounded-[5px] flex justify-between p-2">
           <button
             onClick={handleIncrease}
