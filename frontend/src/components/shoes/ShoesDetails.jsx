@@ -5,29 +5,29 @@ import AddToCartBtn from "../cart/AddToCartBtn";
 import axios from "axios";
 import {  useSelector } from "react-redux";
 import Spinner from "../Misc/Spinner";
+import { getCookie } from "../../utils/cookie";
+import CartIcon from "../cart/CartIcon";
 
 const ShoesDetails = () => {
   const { id } = useParams();
   const [shoes , setShoes] = useState('')
+  const {cart} = useSelector((state) => state.cart)
+  const [inCart , setInCart] = useState(false)
   const { shoe, loading, error } = useSelector((state) => state.wishlist);
 
   const handleClick = (e) => {
     setImage(e.target.src);
-    console.log(e.target.src);
   };
-
  
-  const addToCart = () => {
-    axios.post("http://localhost:3000/cart/add", {
-      _id: id,
-    });
+  const addToCart = async() => {
+   await axios.post(`http://localhost:3000/cart/add?shoeId=${id}&userId=${getCookie('userId')}`)
   };
 
   useEffect(() => {
     axios.get(`http://localhost:3000/shoe/${id}`)
     .then(res => setShoes(res.data.shoe))
-   
-  }, [ shoe]);
+    setInCart(cart.some(shoe => shoe._id === id))
+  }, [ shoe , cart ]);
 
 
 if (loading) {
@@ -77,7 +77,7 @@ if (error) {
         <br />
         <h1>MRP: ${shoes.price}</h1>
         <br />
-        <h2>Rating: {shoes.rating} </h2>
+        <h2>Rating: <span className=" pl-2 pr-2 rounded-md bg-yellow-400 text-black">{shoes.rating}</span> </h2>
         <br />
         <div className="h-12 w-12 flex">
           <div className={`w-6 h-6 border-[1px] border-white mr-2 rounded-full`} 
@@ -90,7 +90,14 @@ if (error) {
         <br />
         <WishlistBtn text={true}  id={id} wishlisted={shoes.wishlisted} />
         <br />
-        <AddToCartBtn addToCart={addToCart} />
+        {
+          inCart ? 
+         <CartIcon shoeDetail={true} />
+           :
+           <AddToCartBtn addToCart={addToCart} /> 
+        
+        
+        }
       </div>
     </div>:
      <Spinner />
