@@ -5,14 +5,14 @@ const getSpecificShoe = async(req, res) =>{
     const shoe =await SHOES.findById(shoeId);
   
     if (!shoe) {
-        res.status(404).json({
+       return res.status(404).json({
             msg:"shoe not found"
         })
     }
   
     // Prepare and return the response
     res.status(200).json({
-        total: shoe.length,
+        // total: shoe.length,
         msg:"success",
         shoe: shoe
     });
@@ -42,11 +42,7 @@ const addShoe = async(req,res)=>{
         rating,
         image
     } = req.body
-    // let shoe;
-    // for(let i = 0; i< 20 ;i++){
-    //  shoe = await SHOES.create(shoes[i])
-    //  console.log(shoe)
-    // }
+    
     const shoe = await SHOES.create({
         
             "productName": productName,
