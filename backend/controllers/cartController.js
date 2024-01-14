@@ -1,16 +1,21 @@
-const CART = require('../models/cart')
+const CART = require('../models/cart');
+const { ApiErrorHandler } = require('../utils/ApiErrorHandler');
 
 const addToCart = async(req,res)=>{
     const {userId , shoeId} = req.query
-    const cart = await CART.findOne({user: userId})
-    console.log(cart)
-    if(!cart){
-        await CART.create({user:userId , shoes:[shoeId]})
+    let cart = await CART.findOne({ user: userId });
+
+    if (!cart) {
+      // If cart doesn't exist, create a new cart
+      cart = await CART.create({ user: userId, shoes: [shoeId] });
+    } else {
+        cart.shoes.push(shoeId);
+        await cart.save();
     }
 
-    cart.shoes.push(shoeId)
+
     await cart.save()
-    console.log(cart.shoes.length)
+    // console.log(cart.shoes.length)
   
 
     res.status(200).json({
@@ -21,8 +26,12 @@ const addToCart = async(req,res)=>{
 
 const cartItemQuantity = async(req,res) =>{
     const {userId} = req.query
-    // const shoeId = req.body.shoeId
     const cart = await CART.findOne({user: userId})
+    const shoe = await CART.findOne({user:userId}).populate('shoes')
+
+    if(!cart){
+        return 
+    }
     function generateShoeObject(shoesArray) {
         const shoeObj = {};
       
@@ -38,7 +47,6 @@ const cartItemQuantity = async(req,res) =>{
       }
       
       const shoeObject = generateShoeObject(cart.shoes);
-      console.log(shoeObject);
       res.status(200).json({shoeObject})
 }
   
@@ -46,19 +54,29 @@ const getCartItems = async(req,res) =>{
     try {
         const {userId} = req.query
         const cart = await CART.findOne({user: userId}).populate('shoes')
+        if(!cart){
+            return res.status(200).json({shoes:[] })
+        }
+       let totalAmount = cart.shoes.reduce((total , item)=>{
+            return total + item.price
+        },0)
+        // console.log('totalAmount',totalAmount)
+        
         const uniqueShoes = Array.from(new Set(cart.shoes.map(shoe => JSON.stringify(shoe)))).map(JSON.parse);
-        res.status(200).json({shoes:uniqueShoes})
+        res.status(200).json({shoes:uniqueShoes , totalAmount :totalAmount})
     } catch (error) {
         console.log(error.message)
     }
 }
 const getAllCartItems = async(req,res) =>{
     const cart = await CART.find()
+    // if(!cart){
+    //     return res.status(200).json({cart:[]})
+    // }
     res.status(200).json({cart})
 }
-const deleteCartItem = async(req,res)=>{
-    const userId = req.body.userId
-    const shoeId = req.body.shoeId
+const decreaseCartItem = async(req,res)=>{
+    const {userId , shoeId} = req.query
     let cart = await CART.findOne({ user : userId })
     if (!cart) {
         res.status(200).json({cart:[]})
@@ -80,39 +98,24 @@ const deleteAllCartItems = async(req,res) =>{
     })
 } 
 
-// const getCartItems = async(req,res)=>{
-//     const shoe = await CART.find({}).populate('shoeId')
-//     if(!shoe){
-//         return res.status(404).json({
-//                 msg:"id not found "
-//         })
-//     }
-//     const calculateTotalAmount = (shoe) =>{
-//         return shoe.reduce((totalPrice, item)=>{
-//           return totalPrice +( item.shoeId.price * item.quantity)
-//         },0)
-//       }
-//     res.status(200).json({
-//         shoe: shoe,
-//         total: shoe.length,
-//         totalAmount : calculateTotalAmount(shoe)
-//     })
-// }
-const updateCartQuantity =async (req,res) =>{
-    const shoe = await CART.updateOne({ _id: req.params.id }, { quantity: req.body.quantity });
-    if(!shoe) {
-        return res.status(404).json({msg:"item not found"})
-    }
-    res.status(200).json({msg:"successfully updated",shoe:shoe})
+const deleteFromCart = async(req,res)=>{
+    const {userId , shoeId} = req.query
+    let cart = await CART.findOne({ user : userId })
+    if (!cart) {
+        res.status(200).json({cart:[]})
+      }  
+     cart.shoes.pull(shoeId)
+     cart.save()
+
+    res.status(200).json({cart})
 }
 
-const getSpecificCartItem = async (req, res) =>{
-    const shoe = await CART.findById(req.params.id)
-    if(!shoe){
-        return res.status(404).json({msg:'not found'})
-    }
-    res.status(200).json({msg:"success",shoe:shoe})
-}
-module.exports = {addToCart , deleteAllCartItems , 
-    deleteCartItem ,getAllCartItems,
-     getCartItems , updateCartQuantity ,getSpecificCartItem ,cartItemQuantity} 
+module.exports = {
+     addToCart ,
+     deleteAllCartItems , 
+     decreaseCartItem ,
+     getAllCartItems,
+     getCartItems  ,
+     cartItemQuantity,
+     deleteFromCart
+    } 
