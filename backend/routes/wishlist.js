@@ -6,7 +6,7 @@ const { verifyJWT } = require('../middleware/auth.middleware')
 router.route('/').get(
     // verifyJWT,
     getWishlist)
-router.route('/remove/:id').delete(deleteWishlist)
+router.route('/remove').delete(deleteWishlist)
 router.route('/deleteAll').delete(deleteAllWishlist)
 router.route('/add/:id').post(addWishlist)
 router.route('/all').get(getAllWishlist)
