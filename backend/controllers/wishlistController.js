@@ -5,7 +5,7 @@ const USER = require('../models/user')
 
 const getWishlist = async (req, res) => {
   const userId= req.query.userId; 
-  console.log(typeof(userId))
+  // console.log(typeof(userId))
   try {
     const wishlistItems = await WISHLIST.findOne({ user: userId }).populate('shoeId');
 
@@ -53,12 +53,14 @@ const addWishlist = async (req, res) => {
   };
 
 const deleteWishlist = async(req,res)=>{
-  const userId  = req.body.userId; // Assuming you receive userId and shoeId in the request body
-  const shoeId = req.params.id
+  const {userId , shoeId}  = req.query; // Assuming you receive userId and shoeId in the request body
+
   console.log('shoeId',shoeId)
+  console.log(userId);
 
    try {
      let wishlist = await WISHLIST.findOne({user:userId});
+     console.log(wishlist);
      if (!wishlist) {
        throw new ApiErrorHandler(404 , "wishlist not found")
      }
