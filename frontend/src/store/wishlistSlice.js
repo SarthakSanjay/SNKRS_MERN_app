@@ -1,11 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { getCookie } from '../utils/cookie';
 
 const initialState = {
   shoe: [],
-  loading: false,
+  loading: null,
   error: null,
   total: 0,
   deleteBtnClicked: false
@@ -38,7 +37,7 @@ const wishlistSlice = createSlice({
         state.shoe = action.payload;
         state.loading = false;
         state.error = null;
-        state.total = action.payload.length
+        // state.total = action.payload.length
       })
       .addCase(fetchWishlist.rejected, (state, action) => {
         state.loading = false;
