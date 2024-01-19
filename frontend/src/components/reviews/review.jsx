@@ -1,12 +1,15 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { getCookie } from '../../utils/cookie'
+import ReviewDate from './ReviewDate'
+import RatingBadge from './RatingBadge'
 
 const Review = ({shoeId}) => {
     const [reviews , setReviews] = useState([])
     const [reviewBox , setReviewBox] = useState(false)
     const [reviewText , setReviewText] = useState('')
     const [rating , setRating] = useState(0)
+    const [overallRating , setOverAllRating] = useState(0)
     const handleClick = () =>{
         setReviewBox(prev => !prev)
     }
@@ -31,22 +34,23 @@ const Review = ({shoeId}) => {
         .catch((error) => console.log(error.message))
     
     }
-    console.log(reviews);
+    // console.log(reviews);
     useEffect(()=>{
-        console.log('object');
         async function fetchReviews(){
 
             let res = await axios.get(`http://localhost:3000/reviews?shoeId=${shoeId}`)
-            console.log(res.data.reviews);
             setReviews(res.data.reviews)
+            setOverAllRating(res.data.totalRating)
+
         }
         fetchReviews()
 
 
-    },[])
+    },[overallRating])
   return (
     <div className='w-full relative'>
-    <h1 className='text-3xl'>Reviews and Rating</h1>
+    <h1 className='text-3xl'>Reviews and Rating  <RatingBadge fromOverAllRating={true} overallRating={overallRating} /></h1>
+   
     <button onClick={handleClick} className='absolute right-0 text-white bg-blue-500 px-2 hover:bg-white hover:text-blue-500 rounded-md'>{reviewBox ? 'Cancel' :'+ Add review'}</button>
     {reviewBox ? <form className='bg-gray-700  p-2 rounded-md'>
         <label htmlFor='addReview'>Add review</label>
@@ -64,13 +68,14 @@ const Review = ({shoeId}) => {
     <br />
     <br />
         {reviews.map((review)=>{
-            return <div key={review._id} className='w-full border border-t-0 border-x-0 h-14 px-2 py-1'>
-            {review.rating <= 0 ? null :  <span className='px-2 mr-2 bg-green-600 rounded-full'>{review.rating } ★ </span> }
+            return <div key={review._id} className='w-full border border-t-0 border-x-0 h-max px-2 py-1'>
+            <RatingBadge review={review} />
+            
 
                 <span>{review.review}</span>
-                <div>
+                <div className='flex justify-between'>
                 <span className='text-sm text-gray-300'>{review.user && review.user.email.split('@')[0] }</span>
-                {/* <span className='border '>{review.createdAt}</span> */}
+                <ReviewDate review={review} />
                 </div>
             </div>
         })}
