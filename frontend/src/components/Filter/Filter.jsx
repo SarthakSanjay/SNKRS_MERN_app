@@ -6,14 +6,14 @@ import FilterCompany from "./FilterCompany";
 import FilterPrice from "./FilterPrice";
 import FilterRating from "./FilterRating";
 
-const Filter = () => {
+const Filter = ({toggle}) => {
   const [color, setColor] = useState("");
   const [company, setCompany] = useState("");
   // const [category, setCategory] = useState('')
   const [price, setPrice] = useState("");
   const [rating, setRating] = useState(4.5);
   const [filterItems, setFilterItems] = useState([]);
-
+ 
   const handleColorChange = (e) => {
     setColor(e.target.value);
     setFilterItems((prevItems) => [...prevItems, e.target.value]);
@@ -81,7 +81,7 @@ const Filter = () => {
   };
   return (
     <form onSubmit={handleSubmit}> 
-      <div className="bg-black  h-[93vh] pl-10 w-1/4 flex flex-col justify-center items-start fixed text-white text-2xl text-left">
+      <div className={`bg-black w-1/5 h-[93vh] pl-10 flex flex-col justify-center items-start fixed text-white text-2xl text-left transition-all delay-500 duration-100 ease-in-out`}>
         <div className="w-full  h-1/6 mb-20 flex flex-wrap text-sm">
           {[...new Set(filterItems)].map((items, index) => {
             return (
@@ -112,7 +112,7 @@ const Filter = () => {
         >
           Apply Filters
         </button>
-      </div>
+      </div> 
     </form>
   );
 };
