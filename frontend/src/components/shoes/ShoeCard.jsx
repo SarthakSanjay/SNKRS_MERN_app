@@ -29,7 +29,7 @@ const ShoeCard = ({
 
   return (
     <>
-      <div className=" h-72 w-52 m-10 cursor-pointer  bg-white/5 rounded-lg text-white">
+      <div className=" h-72 w-52 m-10 hover:scale-105 transition-transform cursor-pointer  bg-white/5 rounded-lg text-white">
         <Link to={`/shoe/${_id}`}>
           <img src={image[0]} className="w-full   object-cover rounded-t-md h-40"/>
           <div className="flex flex-col justify-evenly  h-32 ">
