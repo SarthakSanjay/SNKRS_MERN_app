@@ -67,12 +67,12 @@ const Wishlist = () => {
         {shoe &&
           shoe.map((wishlistItem) => {
             {
-              /* console.log(wishlistItem.shoeId.productName) */
+               console.log(wishlistItem) 
             }
             return (
               <ShoeCard
                 key={wishlistItem._id}
-                shoe={wishlistItem.shoeId}
+                shoe={wishlistItem}
                 wid={wishlistItem._id}
                 inWishlist={true}
               />

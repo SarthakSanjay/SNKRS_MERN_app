@@ -5,19 +5,19 @@ import { fetchWishlist } from "../../store/wishlistSlice";
 import { useDispatch , useSelector } from "react-redux";
 const WishListIcon = () => {
   const dispatch = useDispatch()
-  const {total} = useSelector((state) => state.wishlist)
+  const {shoe} = useSelector((state) => state.wishlist)
   useEffect(() => {
     dispatch(fetchWishlist())
 
-  }, [total,dispatch]);
+  }, [shoe.lenght,dispatch]);
 
   return (
     <Link to="/wishlist">
       <div className="  h-14 w-14 flex justify-center items-center ">
         <LiaHeart className="text-3xl text-white absolute " />
-        {total?
+        {shoe.length?
           <div className="text-white relative bottom-3 left-3  rounded-full bg-pink-500 w-5 h-5 flex justify-center items-center ">
-          {total}
+          {shoe.length}
         </div>
          : ""}
         
