@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineArrowUp, AiOutlineArrowDown } from "react-icons/ai";
 import axios from "axios";
-import { fetchCart } from "../../store/cartSlice";
+import { fetchCart, fetchTotalAmount } from "../../store/cartSlice";
 import { useDispatch } from "react-redux";
 import { getCookie } from "../../utils/cookie";
 
-const CartItems = ({ cartItem, id }) => {
+const CartItems = ({ cartItem, cart }) => {
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
   const { productName, image ,price , _id } = cartItem;
@@ -25,6 +25,7 @@ const CartItems = ({ cartItem, id }) => {
     .then(() =>{
       fetchQuantity()
       // dispatch(fetchCart())
+      dispatch(fetchTotalAmount())
     })
   };
   
@@ -33,21 +34,27 @@ const CartItems = ({ cartItem, id }) => {
     axios.delete(`http://localhost:3000/cart/delete?shoeId=${_id}&userId=${getCookie('userId')}`)
     .then(() =>{
       fetchQuantity()
+      dispatch(fetchTotalAmount())
       // dispatch(fetchCart())
     })
 
   };
   
   const handleDelete = () => {
-    axios.delete(`http://localhost:3000/cart/${id}`).then(() => {
+    axios.delete(`http://localhost:3000/cart/remove?shoeId=${_id}&userId=${getCookie('userId')}`)
+    .then(() =>{
+      fetchQuantity()
+    }).then(()=>{
+      dispatch(fetchCart())
 
-    });
-    dispatch(fetchCart())
+    })
   };
 
   useEffect(() => {
     fetchQuantity()
-  }, []); 
+
+    console.log('use');
+  }, [quantity]); 
 
  
 

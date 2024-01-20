@@ -1,44 +1,37 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import CartItems from "./CartItems";
-import { fetchCart } from "../../store/cartSlice";
+import { fetchCart, fetchTotalAmount } from "../../store/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
-import Notification from "../Misc/Notification";
 import Spinner from "../Misc/Spinner";
+import { getCookie } from "../../utils/cookie";
 const Cart = () => {
-  const [totalAmount , setTotalAmount] = useState(0)
   const dispatch = useDispatch();
-  const { cart, loading, error  , quantity } = useSelector((state) => state.cart);
- console.log('carting ', cart)
+  const { cart, loading, error ,totalAmount } = useSelector((state) => state.cart);
+// console.log(loading);
   const clearCart = () => {
     axios
       .delete("http://localhost:3000/cart/deleteAll")
-      // .then(setNoti(''))
       .then(dispatch(fetchCart()))
       .catch((e) => console.log(e.message));
-
-      setTitle('cart cleared')
-      dispatch(fetchCart())
   };
  
   
 
   useEffect(() => {
-    axios.get('http://localhost:3000/cart')
-      .then(res => setTotalAmount(res.data.totalAmount))
-      .catch(err => console.log(err.message))
-    // dispatch(fetchCart());
-        console.log('use effect rendered')
-  }, [ cart]);
+        dispatch(fetchCart())
+        dispatch(fetchTotalAmount())
+  }, [cart , totalAmount]);
 
 
-  if (loading) {
-    return <Spinner />
-  }
+  // if (loading) {
+  //   return <Spinner />
+  // }
   if (error) {
     return (
       <div className="bg-black h-screen w-screen flex justify-center items-center">
         <h1 className="text-white text-[40px]">Something went wrong!!!</h1>
+        <p className="text-white">{error.message}</p>
       </div>
     );
   }
@@ -57,23 +50,25 @@ const Cart = () => {
       >
         Clear Cart
       </button>
-      {cart.map((cartItem) => {
+      {cart && cart.map((cartItem) => {
         return (
           <CartItems
             key={cartItem._id}
-            cartItem={cartItem.shoeId}
-            id={cartItem._id}
+            cartItem={cartItem}
+            cart={cart}
           />
         );
       })}
-     
-      <h1 className="absolute left-0 p-10 text-3xl">Total: ₹<span className="text-3xl text-green-400">{totalAmount}</span> </h1>
-      {/* <button
-        className="bg-green-500 text-white p-2 rounded-[2px] hover:bg-green-700 "
-        // onClick={calculateTotal}
+      <div className="absolute right-0 p-10 mt-16 border w-1/4 bg-blue-500/25 m-5 rounded-xl ">
+      <h1 className="text-3xl">Total: ₹<span className="text-3xl text-green-400">{totalAmount}</span> </h1>
+      <button
+        className="bg-green-500 w-24 text-white p-2 rounded-full hover:bg-green-700 "
+
       >
-        calculateTotal
-      </button> */}
+      Buy
+      </button>
+      </div>
+     
     </div>
   );
 };

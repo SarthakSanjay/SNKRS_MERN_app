@@ -5,7 +5,6 @@ const AddToCartBtn = ({addToCart}) => {
   const dispatch = useDispatch()
   const handleClick = () =>{
     addToCart()
-    alert('add to cart')
     dispatch(fetchCart())
   }
    return (
