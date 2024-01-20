@@ -25,11 +25,11 @@ const Search = () => {
       handleSubmit()
     }}>
 
-    <div className='bg-gray-200 border-gray-500 flex h-10 rounded-[5px] justify-start items-center border-2 pl-2 pr-2 '>
+    <div className='bg-gray-200 border-gray-500 flex h-10 rounded-[5px] justify-start items-center border-2 pl-2 pr-2 mr-14'>
         <CiSearch className='mr-3 text-2xl text-gray-500'/>
         <input 
         name="search"
-        className='bg-gray-200 w-36 outline-none cursor-pointer' 
+        className='bg-gray-200 w-[300px] outline-none cursor-pointer' 
         placeholder='search'
         onChange={handleChange}
         />
