@@ -15,9 +15,7 @@ const addToCart = async(req,res)=>{
 
 
     await cart.save()
-    // console.log(cart.shoes.length)
   
-
     res.status(200).json({
         cart
     })
@@ -60,7 +58,6 @@ const getCartItems = async(req,res) =>{
        let totalAmount = cart.shoes.reduce((total , item)=>{
             return total + item.price
         },0)
-        // console.log('totalAmount',totalAmount)
         
         const uniqueShoes = Array.from(new Set(cart.shoes.map(shoe => JSON.stringify(shoe)))).map(JSON.parse);
         res.status(200).json({shoes:uniqueShoes , totalAmount :totalAmount})
@@ -70,9 +67,6 @@ const getCartItems = async(req,res) =>{
 }
 const getAllCartItems = async(req,res) =>{
     const cart = await CART.find()
-    // if(!cart){
-    //     return res.status(200).json({cart:[]})
-    // }
     res.status(200).json({cart})
 }
 const decreaseCartItem = async(req,res)=>{
